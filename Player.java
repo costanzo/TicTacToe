@@ -51,7 +51,7 @@ class Player implements Comparable<Player>{
 		return userName;
 	}
 
-	private void setUserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
@@ -71,15 +71,15 @@ class Player implements Comparable<Player>{
 		return numberOfGamePlayed;
 	}
 
-	private void setNumberOfGamePlayed(int numberOfGamePlayed) {
+	public void setNumberOfGamePlayed(int numberOfGamePlayed) {
 		this.numberOfGamePlayed = numberOfGamePlayed;
 	}
 
-	private void setNumberOfGameWon(int numberOfGameWon) {
+	public void setNumberOfGameWon(int numberOfGameWon) {
 		this.numberOfGameWon = numberOfGameWon;
 	}
 
-	private void setNumberOfGameDrawn(int numberOfGameDrawn) {
+	public void setNumberOfGameDrawn(int numberOfGameDrawn) {
 		this.numberOfGameDrawn = numberOfGameDrawn;
 	}
 
