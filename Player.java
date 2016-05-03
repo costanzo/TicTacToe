@@ -3,6 +3,8 @@
 * Student ID: 731209
 * Date: 6th May, 2016
 * Comment: Project B, TicTacToe game solution in COMP90041
+* Description: This class contain the basic information and 
+*              game statistics of one single player.
 */
 class Player implements Comparable<Player>{
 	//the static constant is used for comparing player results
@@ -47,46 +49,57 @@ class Player implements Comparable<Player>{
 		setNumberOfGameDrawn(DEFAULT_GAME_NUMBER);
 	}
 
+	//getter of variable userName
 	public String getUserName() {
 		return userName;
 	}
 
+	//setter of variable userName
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
+	//setter of variable familyName
 	public void setFamilyName(String familyName) {
 		this.familyName = familyName;
 	}
 
+	//getter of variable givenName
 	public String getGivenName() {
 		return givenName;
 	}
 	
+	//setter of variable givenName
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
 	}
 
+	//get the total number of game played
 	public int getNumberOfGamePlayed() {
 		return numberOfGamePlayed;
 	}
 
+	//set the total number of game played
 	public void setNumberOfGamePlayed(int numberOfGamePlayed) {
 		this.numberOfGamePlayed = numberOfGamePlayed;
 	}
 
+	//set the number of the winning game played
 	public void setNumberOfGameWon(int numberOfGameWon) {
 		this.numberOfGameWon = numberOfGameWon;
 	}
 
+	//set the number of the drawn games played
 	public void setNumberOfGameDrawn(int numberOfGameDrawn) {
 		this.numberOfGameDrawn = numberOfGameDrawn;
 	}
 
+	//get the number of the drawn games 
 	public int getNumberOfGameDrawn() {
 		return numberOfGameDrawn;
 	}
 
+	//get the number of the winning games
 	public int getNumberOfGameWon() {
 		return numberOfGameWon;
 	}
@@ -145,7 +158,7 @@ class Player implements Comparable<Player>{
 				return WORSE;
 			}
 			else {
-				//
+				//if other statistics are the same, compare based on the competitor usernames
 				String competitorUserName = player.getUserName();
 				return this.userName.compareToIgnoreCase(competitorUserName);
 			}
@@ -165,6 +178,7 @@ class Player implements Comparable<Player>{
 
 	//reset this player's game statistics
 	public void ResetStats(){
+		//all the game statistics will be set to the default value
 		this.numberOfGamePlayed = DEFAULT_GAME_NUMBER;
 		this.numberOfGameDrawn = DEFAULT_GAME_NUMBER;
 		this.numberOfGameWon = DEFAULT_GAME_NUMBER;
@@ -172,18 +186,21 @@ class Player implements Comparable<Player>{
 
 	//when a player win a game, add a winning record to statistics
 	public void addWin(){
+		//total game number and winning game number plus one
 		this.numberOfGamePlayed++;
 		this.numberOfGameWon++;
 	}
 
 	//when a player gets a drawn, add a drawn record to statistics
 	public void addDraw(){
+		//total game number and drawn game number plus one
 		this.numberOfGamePlayed++;
 		this.numberOfGameDrawn++;
 	}
 
 	//when a player loses a game, add a lose record to statistics
 	public void addLose(){
+		//only the total game number should plus one
 		this.numberOfGamePlayed++;
 	}
 }

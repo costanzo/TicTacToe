@@ -3,19 +3,26 @@
 * Student ID: 731209
 * Date: 6th May, 2016
 * Comment: Project B, TicTacToe game solution in COMP90041
+* Description: this class is used to handle a single game-play
+*              between two players including showing the game  
+*              grid and player intruction.
 */
 import java.util.Scanner;
 
 class GameManager{
+	//these are the marks that will be showed in the grid
 	public static final String MARK_OF_O = "O";
 	public static final String MARK_OF_X = "X";
 	public static final String MARK_OF_EMPTY = " ";
 	public static final String MARK_OF_COLUMN = "|";
 	public static final String MARK_OF_ROW = "-";
 
+	//the error code, each one indicates a certain error or no error
 	public static final int NO_ERROR = 0;
 	public static final int OCCUPATION_ERROR = 1;
 	public static final int OUT_OF_BOUNDARY_ERROR = 2;
+	
+	//the error information that will show up when an error occurs 
 	public static final String ERROR = "Invalid move. ";
 	public static final String
 			ERROR_INFO1 = "The cell has been occupied.";
@@ -24,7 +31,9 @@ class GameManager{
 	
 	//define the grid size
 	public static final int ROW_UPPERBOUND = 3;
+	public static final int ROW_LOWERBOUND = 0;
 	public static final int COLUMN_UPPERBOUND = 3;
+	public static final int COLUMN_LOWERBOUND = 0;
 	
 	//define the grid size including the |  - and marks
 	public static final int GRID_ROW_UPPERBOUND = 2 * ROW_UPPERBOUND - 1;  
@@ -40,6 +49,9 @@ class GameManager{
 	public static final int PLAYER_O_WON = 1;
 	public static final int PLAYER_X_WON = 2;
 	public static final int DRAW = 3;
+	
+	//used when printing the grid
+	public static final ODD = 1;
 
 	private int[][] grid;
 	private String nameOfPlayerO, nameOfPlayerX;
@@ -52,8 +64,8 @@ class GameManager{
 	public GameManager(String nameOfPlayerO, String nameOfPlayerX){
 		//create the grid into the expected size and initialize the grid
 		grid = new int[ROW_UPPERBOUND][COLUMN_UPPERBOUND];
-		for(int i = 0; i < ROW_UPPERBOUND; i++)
-			for (int j = 0 ;j < COLUMN_UPPERBOUND; j++)
+		for(int i = ROW_LOWERBOUND; i < ROW_UPPERBOUND; i++)
+			for (int j = COLUMN_LOWERBOUND ;j < COLUMN_UPPERBOUND; j++)
 				grid[i][j] = EMPTY_MARK;
 
 		//initialize the player names with null
@@ -111,15 +123,19 @@ class GameManager{
 		grid[rowOfMark][columnOfMark] = playerMark;
 	}
 
+	//check if player can put a mark in this grid
 	private boolean isGridAvailable(int row, int column){
+		//check if any error will occur in this grid 
 		int errorCode = checkError(row, column);
+		
+		//get result from corresponding error code
 		switch(errorCode){
 			case NO_ERROR:
 				return true;
-			case OCCUPATION_ERROR:
+			case OCCUPATION_ERROR:    //this grid has already been occupied
 				System.out.println(ERROR + ERROR_INFO1);
 				return false;
-			case OUT_OF_BOUNDARY_ERROR:
+			case OUT_OF_BOUNDARY_ERROR:   // this grid is out of boundary
 				System.out.println(ERROR + ERROR_INFO2);
 				return false;
 			default:
@@ -127,11 +143,14 @@ class GameManager{
 		}
 	}
 
+	//check if this point is out of boundary or occupied
 	private int checkError(int row, int column){
-		if((row >= ROW_UPPERBOUND || row < 0)
-				||(column >= COLUMN_UPPERBOUND || column < 0))
+		//if the point is out of boundary, then return out of boundary error
+		if((row >= ROW_UPPERBOUND || row < ROW_LOWERBOUND)
+				||(column >= COLUMN_UPPERBOUND || column < COLUMN_LOWERBOUND))
 			return OUT_OF_BOUNDARY_ERROR;
 
+		//if this point is occupied, return occupation error
 		if(grid[row][column] != EMPTY_MARK)
 			return OCCUPATION_ERROR;
 
@@ -150,13 +169,13 @@ class GameManager{
 
 	//print out the game grid
 	private void printGrid(){
-		for ( int i = 0 ; i < GRID_ROW_UPPERBOUND ; i ++ ){
-			for ( int j = 0 ;j < GRID_COLUMN_UPPERBOUND ; j++ ){
-				if(i%2 == 1)
+		for ( int i = ROW_LOWERBOUND ; i < GRID_ROW_UPPERBOUND ; i ++ ){
+			for ( int j = COLUMN_LOWERBOUND ;j < GRID_COLUMN_UPPERBOUND ; j++ ){
+				if(i%2 == ODD)
 					//all the odd rows print 5 -
 					System.out.print(MARK_OF_ROW);
 				else{
-					if(j%2 == 1)
+					if(j%2 == ODD)
 						//all odd columns of the even rows print |
 						System.out.print(MARK_OF_COLUMN);
 					else{
@@ -196,7 +215,7 @@ class GameManager{
 	//check if there is a winner if yes return winner's mark
 	private int checkWinner(){
 		//first check the rows
-		for(int i = 0; i < ROW_UPPERBOUND; i++)
+		for(int i = ROW_LOWERBOUND; i < ROW_UPPERBOUND; i++)
 			if( (grid[i][0] == grid[i][1])
 					&& (grid[i][0] == grid[i][2]) )
 				if(grid[i][0] != GAME_CONTINUE)
@@ -226,8 +245,8 @@ class GameManager{
 
 	//helper function to check if the result is a draw
 	private boolean isDraw(){
-		for(int i = 0; i < ROW_UPPERBOUND; i++)
-			for (int j = 0 ;j < COLUMN_UPPERBOUND; j++)
+		for(int i = ROW_LOWERBOUND; i < ROW_UPPERBOUND; i++)
+			for (int j = COLUMN_LOWERBOUND ;j < COLUMN_UPPERBOUND; j++)
 				if(grid[i][j] == EMPTY_MARK)
 					return false;
 		return true;
