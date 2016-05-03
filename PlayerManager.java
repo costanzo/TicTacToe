@@ -155,14 +155,14 @@ class PlayerManager{
     }
 
     public void displayRankings(){
-        System.out.println("WIN  | DRAW | GAME | USERNAME");
+        System.out.println(" WIN  | DRAW | GAME | USERNAME");
         Arrays.sort(playerArray, 0, playerTotalNum);
         for(int i = 0; i < playerTotalNum ; i++)
             formatResult(playerArray[i]);
     }
 
     private void formatResult(Player player){
-        System.out.printf("%3d", (int)(player.GetWinningRatio()*100));
+        System.out.printf(" %3d", (int)(player.GetWinningRatio()*100));
         System.out.print("% | ");
         System.out.printf("%3d", (int)(player.GetDrawnRatio()*100));
         System.out.print("% | ");

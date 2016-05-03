@@ -48,7 +48,7 @@ class TicTacToe{
     }
 
     private void SystemInitialisation(){
-        System.out.println("Welcome to TIc Tac Toe!");
+        System.out.println("Welcome to Tic Tac Toe!");
         ShowCommandPrompt();
     }
 
