@@ -51,7 +51,7 @@ class GameManager{
 	public static final int DRAW = 3;
 	
 	//used when printing the grid
-	public static final ODD = 1;
+	public static final int ODD = 1;
 
 	private int[][] grid;
 	private String nameOfPlayerO, nameOfPlayerX;
