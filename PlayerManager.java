@@ -5,7 +5,7 @@
 * Comment: Project B, TicTacToe game solution in COMP90041
 * Description: this class contains all the Player instances
 *              that will be recorded and methods to manulpilate
-*              the players
+*              the players.
 */
 import java.util.Arrays;
 import java.util.Scanner;
