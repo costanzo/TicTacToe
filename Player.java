@@ -6,6 +6,7 @@
 * Description: This class contain the basic information and 
 *              game statistics of one single player.
 */
+
 class Player implements Comparable<Player>{
 	//the static constant is used for comparing player results
 	public static final int BETTER = -1;
@@ -94,18 +95,8 @@ class Player implements Comparable<Player>{
 		this.numberOfGameDrawn = numberOfGameDrawn;
 	}
 
-	//get the number of the drawn games 
-	public int getNumberOfGameDrawn() {
-		return numberOfGameDrawn;
-	}
-
-	//get the number of the winning games
-	public int getNumberOfGameWon() {
-		return numberOfGameWon;
-	}
-
 	//get the winning ratio of the player, if no game played, return zero
-	public float GetWinningRatio(){
+	public float getWinningRatio(){
 		if(numberOfGamePlayed != DEFAULT_GAME_NUMBER){
 			//if at least one game played, return a float number as winning ratio
 		    return ((float)numberOfGameWon) / numberOfGamePlayed ;
@@ -117,7 +108,7 @@ class Player implements Comparable<Player>{
 	}
 
 	//get the drawn ratio of the player, if no game played, return zero
-	public float GetDrawnRatio(){
+	public float getDrawnRatio(){
 		if(numberOfGamePlayed != DEFAULT_GAME_NUMBER){
 			//if at least one game played, return a float number as drawn ratio
 			return ((float)numberOfGameDrawn) / numberOfGamePlayed ;
@@ -132,28 +123,28 @@ class Player implements Comparable<Player>{
 	//override the abstract method in the interface for comparison
 	public int compareTo(Player player){
 		//get the winning ration and drawn ratio for comparison
-		float win = GetWinningRatio();
-		float drawn = GetDrawnRatio();
+		float win = getWinningRatio();
+		float drawn = getDrawnRatio();
 
 		//make sure there won't be exception in subsequent process
 		if(player == null)
 			return BETTER;
 
-		if(win > player.GetWinningRatio()){
+		if(win > player.getWinningRatio()){
 			//player with bigger winning ration is better
 			return BETTER;
 		}
-		else if(win < player.GetWinningRatio()){
+		else if(win < player.getWinningRatio()){
 			//player with smaller winning ratio is worse
 			return WORSE;
 		}
 		else {
 			//when the winning ratio is the same, compare the drawn ratio
-			if (drawn > player.GetDrawnRatio()){
+			if (drawn > player.getDrawnRatio()){
 				//player with higher drawn ratio is better
 				return BETTER;
 			}
-			else if (drawn < player.GetDrawnRatio()){
+			else if (drawn < player.getDrawnRatio()){
 				//player with lower drawn ratio is worse
 				return WORSE;
 			}
@@ -177,7 +168,7 @@ class Player implements Comparable<Player>{
 	}
 
 	//reset this player's game statistics
-	public void ResetStats(){
+	public void resetStats(){
 		//all the game statistics will be set to the default value
 		this.numberOfGamePlayed = DEFAULT_GAME_NUMBER;
 		this.numberOfGameDrawn = DEFAULT_GAME_NUMBER;

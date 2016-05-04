@@ -17,6 +17,9 @@ class GameManager{
 	public static final String MARK_OF_COLUMN = "|";
 	public static final String MARK_OF_ROW = "-";
 
+	//set the default player name as null
+	public static final String DEFAULT_PLAYER_NAME = null;
+
 	//the error code, each one indicates a certain error or no error
 	public static final int NO_ERROR = 0;
 	public static final int OCCUPATION_ERROR = 1;
@@ -28,6 +31,8 @@ class GameManager{
 			ERROR_INFO1 = "The cell has been occupied.";
 	public static final String
 			ERROR_INFO2 = "You must place at a cell within {0,1,2} {0,1,2}.";
+	public static final String
+			GAME_ERROR = "Player does not exist.";
 	
 	//define the grid size
 	public static final int ROW_UPPERBOUND = 3;
@@ -53,12 +58,13 @@ class GameManager{
 	//used when printing the grid
 	public static final int ODD = 1;
 
+	//the grid matrix and names of the two players
 	private int[][] grid;
 	private String nameOfPlayerO, nameOfPlayerX;
 
 	public GameManager(){
 		//assign the nameOfPlayerX and nameOfPlayerO with default value
-		this(null,null);
+		this(DEFAULT_PLAYER_NAME,DEFAULT_PLAYER_NAME);
 	}
 
 	public GameManager(String nameOfPlayerO, String nameOfPlayerX){
@@ -73,7 +79,12 @@ class GameManager{
 		this.nameOfPlayerX = nameOfPlayerX;
 	}
 
-	public int run(Scanner scanner){
+	//run the game between the given two players
+	public int playGame(String player1, String player2, Scanner scanner){
+		//replace the default player name with given players' given names
+		this.nameOfPlayerO = player1;
+		this.nameOfPlayerX = player2;
+
 		//flag to decide if it is player O's turn
 		boolean isPlayerOTurn = true;
 

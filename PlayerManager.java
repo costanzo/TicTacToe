@@ -18,6 +18,7 @@ class PlayerManager{
 	
 	//this is a flag used to indicate that no player is found
     public static final int NO_SUCH_PLAYER = -1;
+    public static final String NO_SUCH_GIVENNAME = null;
 	
 	//the maximum player number that this player manager can handle
     public static final int DEFAULT_PLAYER_CAPACITY = 100;
@@ -39,15 +40,12 @@ class PlayerManager{
             USERNAME_EXISTS_ERROR = "The username has been used already.";
     public static final String
             PLAYER_NOT_EXISTS_ERROR = "The player does not exist.";
-    public static final String GAME_ERROR = "Player does not exist.";
+
 	
 
 	//the player array and the total number of players
     private Player[] playerArray;
     private int playerTotalNum;
-	
-	//GameManager instance for handling TicTacToe game
-    private GameManager gameManager;
 
 	//constructor for a default maximum player number, which is 100
     public PlayerManager(){
@@ -196,14 +194,14 @@ class PlayerManager{
     private void resetAllStats(){
         for( int i = 0; i < playerTotalNum; i++ ){
 			//reset every single player in this array
-            playerArray[i].ResetStats();
+            playerArray[i].resetStats();
 		}
     }
 
 	//reset the player statistics based on its index
     private void resetOneStats(int playerNum){
 		//reset player statistics given its index in the array
-        playerArray[playerNum].ResetStats();
+        playerArray[playerNum].resetStats();
     }
 
 	//display one or all player informaiton with required format
@@ -269,11 +267,11 @@ class PlayerManager{
 	//format the game statistics of certain player
     private void formatResult(Player player){
 		//print the winning ratio into XX% format 
-        System.out.printf(" %3d", (int)(player.GetWinningRatio()*100));
+        System.out.printf(" %3d", (int)(player.getWinningRatio()*100));
         System.out.print("% | ");
 		
 		//print the drawn ratio into XX% format
-        System.out.printf("%3d", (int)(player.GetDrawnRatio()*100));
+        System.out.printf("%3d", (int)(player.getDrawnRatio()*100));
         System.out.print("% | ");
 		
 		//print the number of game played into XX format
@@ -286,7 +284,7 @@ class PlayerManager{
     }
 
 	//when a game finishes, store the game result into the player instance respectively
-    private void storeGameResult(String player1UserName, String player2UserName, int resultStats){
+    public void storeGameResult(String player1UserName, String player2UserName, int resultStats){
 		//first get the player indexes of the two player
         int player1Num = findPlayerNum(player1UserName);
         int player2Num = findPlayerNum(player2UserName);
@@ -312,34 +310,19 @@ class PlayerManager{
         }
     }
 
-	//make the given two username players play game
-    public void makePlayersPlay(String player1UserName, String player2UserName, Scanner scanner){
-		//first get the indexes of the players
-        int player1Num = findPlayerNum(player1UserName);
-        int player2Num = findPlayerNum(player2UserName);
+	//try to get the given name from the player list according to the user name
+    public String getGivenNameFromUser(String userName){
+		//first find the player index in the array
+        int playerNum = findPlayerNum(userName);
 		
-		/*if at least one of the players does not exist
-		   print an error messgae and terminate this command*/
-        if( (player1Num == NO_SUCH_PLAYER)
-                || (player2Num == NO_SUCH_PLAYER) ){
-            System.out.println(GAME_ERROR);
-            return ;
+        if(playerNum != NO_SUCH_PLAYER) {
+			//if player exists, return given name
+            return playerArray[playerNum].getGivenName();
         }
-		
-        int result ;
-		
-		//get the given names of the players
-        String player1GivenName = playerArray[player1Num].getGivenName();
-        String player2GivenName = playerArray[player2Num].getGivenName();
-		
-		//create a new GameManager instance for the two players
-        this.gameManager = new GameManager(player1GivenName, player2GivenName);
-		
-		//play the game and get the result
-        result = this.gameManager.run(scanner);
-		
-		//store the game result into the player instances
-        storeGameResult(player1UserName, player2UserName, result);
+        else{
+			//if not exists, return default non-exist flag
+            return NO_SUCH_GIVENNAME;
+        }
     }
 
 }
