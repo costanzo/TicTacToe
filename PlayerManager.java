@@ -244,7 +244,7 @@ class PlayerManager{
 		}
     }
 
-	//display informaiton and statistics of one player given the index
+	//display information and statistics of one player given the index
     private void displayOnePlayer(int playerNum){
         System.out.println(playerArray[playerNum].toString());
     }
@@ -293,18 +293,18 @@ class PlayerManager{
         switch (resultStats){
             case WIN:
 			    //player 1 wins player 2
-                playerArray[player1Num].addWin();
-                playerArray[player2Num].addLose();
+                playerArray[player1Num].win();
+                playerArray[player2Num].lose();
                 break;
             case LOSE:
 			    //player 2 wins player 1
-                playerArray[player1Num].addLose();
-                playerArray[player2Num].addWin();
+                playerArray[player1Num].lose();
+                playerArray[player2Num].win();
                 break;
             case DRAW:
 			    //the two players get drawn
-                playerArray[player1Num].addDraw();
-                playerArray[player2Num].addDraw();
+                playerArray[player1Num].draw();
+                playerArray[player2Num].draw();
                 break;
             default:
         }

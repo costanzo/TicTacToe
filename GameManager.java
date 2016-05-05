@@ -70,17 +70,24 @@ class GameManager{
 	public GameManager(String nameOfPlayerO, String nameOfPlayerX){
 		//create the grid into the expected size and initialize the grid
 		grid = new int[ROW_UPPERBOUND][COLUMN_UPPERBOUND];
-		for(int i = ROW_LOWERBOUND; i < ROW_UPPERBOUND; i++)
-			for (int j = COLUMN_LOWERBOUND ;j < COLUMN_UPPERBOUND; j++)
-				grid[i][j] = EMPTY_MARK;
 
 		//initialize the player names with null
 		this.nameOfPlayerO = nameOfPlayerO;
 		this.nameOfPlayerX = nameOfPlayerX;
 	}
 
+	//clear the grid for the new players
+	private void resetGrid(){
+		for(int i = ROW_LOWERBOUND; i < ROW_UPPERBOUND; i++)
+			for (int j = COLUMN_LOWERBOUND ;j < COLUMN_UPPERBOUND; j++)
+				grid[i][j] = EMPTY_MARK;
+	}
+
 	//run the game between the given two players
 	public int playGame(String player1, String player2, Scanner scanner){
+		//clear the grid for new players
+		resetGrid();
+
 		//replace the default player name with given players' given names
 		this.nameOfPlayerO = player1;
 		this.nameOfPlayerX = player2;
@@ -108,7 +115,8 @@ class GameManager{
 			printGrid();
 			gameResultType = getGameState();
 		}
-		//scanner.close();
+
+		//this line collect the junks
         scanner.nextLine();
 
 		//print the final result of the game as indicated by gameResultType

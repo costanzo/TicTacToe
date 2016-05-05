@@ -20,19 +20,19 @@ class TicTacToe{
     private Scanner scanner;
 	
 	//the command type for processing, such as addplayer
-    private String commandName ;
+    private String commandType ;
 	
 	//the command execution target or edition content
     private String commandContent ;
 	
-	//PlayerManager instance to manupilate the players
+	//PlayerManager instance to manipulate the players
     private PlayerManager playerManger;
 
     //GameManager instance for handling TicTacToe game
     private GameManager gameManager;
 
 	//enumerate all command types 
-    public enum Command{
+    private enum Command{
         EXIT,
         ADDPLAYER,
         REMOVEPLAYER,
@@ -86,7 +86,7 @@ class TicTacToe{
         StringTokenizer stOfInput = new StringTokenizer(input,COMMAND_DELIMITER);
 
 		//get the command type from the input
-        this.commandName = stOfInput.nextToken();
+        this.commandType = stOfInput.nextToken();
 		
 		//get the command content
         if(stOfInput.hasMoreTokens()){
@@ -102,7 +102,7 @@ class TicTacToe{
 	//take actions according to the user input command type
     private void chooseAction(){
 		//first get the enumerate type of the command
-        Command command = Command.valueOf(commandName.toUpperCase());
+        Command command = Command.valueOf(commandType.toUpperCase());
         switch(command){
             case EXIT :           //exit the system
                 exit();
@@ -183,7 +183,7 @@ class TicTacToe{
         playerManger.resetStats(this.commandContent, this.scanner);
     }
 
-	//displayer one or all players
+	//display one or all players
     private void displayPlayer(){
         playerManger.displayPlayer(this.commandContent);
     }
