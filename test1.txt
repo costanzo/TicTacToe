@@ -1,5 +1,5 @@
-addplayer a,ackerley, acton
-addplayer b,adamaris, addison
+addplayer a,ackerley,acton
+addplayer b,adamaris,addison
 addplayer c,adney,adolf
 removeplayer d
 removeplayer a
@@ -13,7 +13,6 @@ displayplayer b
 displayplayer a
 displayplayer
 rankings
-playgame a,b
 playgame a,c
 1 1
 1 1
@@ -51,7 +50,7 @@ playgame c,e
 rankings
 resetstats a
 rankings
-display a
+displayplayer a
 resetstats
 y
 rankings
