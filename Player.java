@@ -12,7 +12,7 @@ class Player implements Comparable<Player>{
 	public static final int BETTER = -1;
 	public static final int WORSE = 1;
 
-
+    //the constant for the default username
 	public static final String DEFAULT_USERNAME = "username";
 
 	//the user basic information variables
@@ -25,14 +25,14 @@ class Player implements Comparable<Player>{
 	private Stats stats;
 
 	public Player(){
-		this(DEFAULT_USERNAME, Name.DEFAULT_FAMILYNAME, Name.DEFAULT_GIVENNAME);
+		this(DEFAULT_USERNAME, new Name());
 	}
 
 	//constructing a instance with given player information
-	public Player(String userName, String familyName, String givenName){
+	public Player(String userName, Name realName){
 		//set the player info with given strings
 		this.userName = userName;
-		this.realName = new Name(familyName, givenName);
+		this.realName = realName;
 		this.stats = new Stats();
 	}
 

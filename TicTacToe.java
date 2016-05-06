@@ -16,22 +16,7 @@ class TicTacToe{
     public static final String COMMAND_DELIMITER = " ";
     public static final String CONTENT_DELIMITER = ",";
 
-	//scanner to collect user input 
-    private Scanner scanner;
-	
-	//the command type for processing, such as addplayer
-    private String commandType ;
-	
-	//the command execution target or edition content
-    private String commandContent ;
-	
-	//PlayerManager instance to manipulate the players
-    private PlayerManager playerManger;
-
-    //GameManager instance for handling TicTacToe game
-    private GameManager gameManager;
-
-	//enumerate all command types 
+    //enumerate all command types
     private enum Command{
         EXIT,
         ADDPLAYER,
@@ -42,6 +27,20 @@ class TicTacToe{
         RANKINGS,
         PLAYGAME
     }
+	//scanner to collect user input 
+    private Scanner scanner;
+	
+	//the command type for processing, such as addplayer
+    private Command commandType ;
+	
+	//the command execution target or edition content
+    private String commandContent ;
+	
+	//PlayerManager instance to manipulate the players
+    private PlayerManager playerManger;
+
+    //GameManager instance for handling TicTacToe game
+    private GameManager gameManager;
 
     public static void main(String[] args){
 		TicTacToe gameSystem = new TicTacToe();
@@ -85,8 +84,9 @@ class TicTacToe{
 
         StringTokenizer stOfInput = new StringTokenizer(input,COMMAND_DELIMITER);
 
-		//get the command type from the input
-        this.commandType = stOfInput.nextToken();
+		//get the command type from the input and change it into enumerate type
+        String commandTypeString = stOfInput.nextToken();
+        this.commandType = Command.valueOf(commandTypeString.toUpperCase());
 		
 		//get the command content
         if(stOfInput.hasMoreTokens()){
@@ -101,9 +101,8 @@ class TicTacToe{
 
 	//take actions according to the user input command type
     private void chooseAction(){
-		//first get the enumerate type of the command
-        Command command = Command.valueOf(commandType.toUpperCase());
-        switch(command){
+		//find the suitable action from the command type
+        switch(commandType){
             case EXIT :           //exit the system
                 exit();
                 break;
@@ -123,7 +122,7 @@ class TicTacToe{
                 displayPlayer();
                 break;
             case RANKINGS:        //displayer the ranking of all players
-                displayRanking();
+                rankings();
                 break;
             case PLAYGAME:        //make two players play the game
                 playGame();
@@ -154,7 +153,7 @@ class TicTacToe{
         userName = st.nextToken();
         familyName = st.nextToken();
         givenName = st.nextToken();
-        Player newPlayer = new Player(userName, familyName, givenName);
+        Player newPlayer = new Player(userName, new Name(familyName, givenName));
         playerManger.addPlayer(newPlayer);
     }
 
@@ -189,7 +188,7 @@ class TicTacToe{
     }
 
 	//display the ranking of all players
-    private void displayRanking(){
+    private void rankings(){
         playerManger.displayRankings();
     }
 

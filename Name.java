@@ -16,8 +16,7 @@ class Name {
     private String givenName;
 
     public Name(){
-        this.familyName = DEFAULT_FAMILYNAME;
-        this.givenName = DEFAULT_GIVENNAME;
+        this(DEFAULT_FAMILYNAME,DEFAULT_GIVENNAME);
     }
 
     //construct a Name instance with provided family name and given name
@@ -45,4 +44,5 @@ class Name {
     public void setGivenName(String givenName) {
         this.givenName = givenName;
     }
+
 }
