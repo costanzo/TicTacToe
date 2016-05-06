@@ -8,7 +8,6 @@
 *              the players.
 */
 import java.util.Arrays;
-import java.util.Scanner;
 
 class PlayerManager{
 	//the constants represent the game result 
@@ -18,7 +17,7 @@ class PlayerManager{
 	
 	//this is a flag used to indicate that no player is found
     public static final int NO_SUCH_PLAYER = -1;
-    public static final String NO_SUCH_GIVENNAME = null;
+    public static final Player NO_SUCH_USERNAME = null;
 	
 	//the maximum player number that this player manager can handle
     public static final int DEFAULT_PLAYER_CAPACITY = 100;
@@ -41,8 +40,6 @@ class PlayerManager{
     public static final String
             PLAYER_NOT_EXISTS_ERROR = "The player does not exist.";
 
-	
-
 	//the player array and the total number of players
     private Player[] playerArray;
     private int playerTotalNum;
@@ -56,6 +53,21 @@ class PlayerManager{
 	public PlayerManager(int totalPlayers){
         playerArray = new Player[totalPlayers];
         resetPlayerManager();
+    }
+
+
+    //get the player instance of the player
+    public Player getPlayer(String userName){
+        //find the player's index first
+        int playerNum = findPlayerNum(userName);
+
+        if(playerNum != NO_SUCH_PLAYER) {
+            //return the player that is needed
+            return playerArray[playerNum].clone();
+        }
+        else{
+            return NO_SUCH_USERNAME;
+        }
     }
 
 	//remove all the players in the array
@@ -105,11 +117,11 @@ class PlayerManager{
     }
 
 	//execute the remove command, remove a given player or remove all
-    public void removePlayer(String userName, Scanner scanner){
+    public void removePlayer(String userName){
         if(userName == null){
 			//if no name given, ask if remove all the players
             System.out.println(CONFIRM_REMOVE_ALL);
-            String answer = scanner.nextLine();
+            String answer = TicTacToe.scanner.nextLine();
 			
             if(answer.equals(CONFIRM_ANSWER)){
 				//remove all the players if user confirms
@@ -165,11 +177,11 @@ class PlayerManager{
     }
 
 	//reset the statistics of one or all players
-    public void resetStats(String userName, Scanner scanner){
+    public void resetStats(String userName){
         if(userName == null){
 			//ask the user if reset all players
             System.out.println(CONFIRM_RESET_ALL);
-            String answer = scanner.nextLine();
+            String answer = TicTacToe.scanner.nextLine();
 			
             if(answer.equals(CONFIRM_ANSWER)){
 				//reset all player statistics after confirmation
@@ -307,21 +319,6 @@ class PlayerManager{
                 playerArray[player2Num].draw();
                 break;
             default:
-        }
-    }
-
-	//try to get the given name from the player list according to the user name
-    public String getGivenNameFromUser(String userName){
-		//first find the player index in the array
-        int playerNum = findPlayerNum(userName);
-		
-        if(playerNum != NO_SUCH_PLAYER) {
-			//if player exists, return given name
-            return playerArray[playerNum].getGivenName();
-        }
-        else{
-			//if not exists, return default non-exist flag
-            return NO_SUCH_GIVENNAME;
         }
     }
 

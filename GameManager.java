@@ -7,7 +7,6 @@
 *              between two players including showing the game  
 *              grid and player intruction.
 */
-import java.util.Scanner;
 
 class GameManager{
 	//these are the marks that will be showed in the grid
@@ -67,6 +66,7 @@ class GameManager{
 		this(DEFAULT_PLAYER_NAME,DEFAULT_PLAYER_NAME);
 	}
 
+
 	public GameManager(String nameOfPlayerO, String nameOfPlayerX){
 		//create the grid into the expected size and initialize the grid
 		grid = new int[ROW_UPPERBOUND][COLUMN_UPPERBOUND];
@@ -84,13 +84,13 @@ class GameManager{
 	}
 
 	//run the game between the given two players
-	public int playGame(String player1, String player2, Scanner scanner){
+	public int playGame(Player player1, Player player2){
 		//clear the grid for new players
 		resetGrid();
 
 		//replace the default player name with given players' given names
-		this.nameOfPlayerO = player1;
-		this.nameOfPlayerX = player2;
+		this.nameOfPlayerO = player1.getGivenName();
+		this.nameOfPlayerX = player2.getGivenName();
 
 		//flag to decide if it is player O's turn
 		boolean isPlayerOTurn = true;
@@ -104,11 +104,11 @@ class GameManager{
 		//for loop for each turn
 		while(gameResultType == GAME_CONTINUE){
 			if(isPlayerOTurn){              //player O's turn
-				nextMove(PLAYER_O_MARK, nameOfPlayerO, scanner);
+				nextMove(PLAYER_O_MARK, nameOfPlayerO);
 				isPlayerOTurn = false;
 			}
 			else{                           //player X's turn
-				nextMove(PLAYER_X_MARK, nameOfPlayerX, scanner);
+				nextMove(PLAYER_X_MARK, nameOfPlayerX);
 				isPlayerOTurn = true;
 			}
 			//print out the grid and check the state of the game
@@ -117,7 +117,7 @@ class GameManager{
 		}
 
 		//this line collect the junks
-        scanner.nextLine();
+        TicTacToe.scanner.nextLine();
 
 		//print the final result of the game as indicated by gameResultType
 		printResult(gameResultType);
@@ -126,15 +126,15 @@ class GameManager{
 	}
 
 	//print and record the next step of the certain player
-	private void nextMove(int playerMark, String playerName, Scanner scanner) {
+	private void nextMove(int playerMark, String playerName) {
 		int rowOfMark, columnOfMark;
 
 		do {
 			System.out.println(playerName + "'s move:");
 
 			//get the row and column the player
-			rowOfMark = scanner.nextInt();
-			columnOfMark = scanner.nextInt();
+			rowOfMark = TicTacToe.scanner.nextInt();
+			columnOfMark = TicTacToe.scanner.nextInt();
 
 	    }while (!isGridAvailable(rowOfMark, columnOfMark));
 

@@ -22,7 +22,7 @@ class Stats {
         this(DEFAULT_GAME_NUMBER,DEFAULT_GAME_NUMBER,DEFAULT_GAME_NUMBER);
     }
 
-    public Stats(int numberOfGameDrawn, int numberOfGameWon, int numberOfGamePlayed) {
+    public Stats(int numberOfGamePlayed, int numberOfGameWon, int numberOfGameDrawn) {
         this.numberOfGameDrawn = numberOfGameDrawn;
         this.numberOfGameWon = numberOfGameWon;
         this.numberOfGamePlayed = numberOfGamePlayed;
@@ -93,5 +93,11 @@ class Stats {
     public void addLose(){
         //only the total game number should plus one
         this.numberOfGamePlayed++;
+    }
+
+    @Override
+    //override the clone method, return a same stats
+    public Stats clone(){
+        return new Stats(this.numberOfGamePlayed, this.numberOfGameWon, this.numberOfGameDrawn);
     }
 }

@@ -36,6 +36,12 @@ class Player implements Comparable<Player>{
 		this.stats = new Stats();
 	}
 
+	//constructing a player instance with username, realname and stats
+	public Player(String userName, Name realName, Stats stats){
+		this.userName = userName;
+		this.realName = realName;
+		this.stats = stats;
+	}
 	//getter of variable userName
 	public String getUserName() {
 		return userName;
@@ -128,7 +134,6 @@ class Player implements Comparable<Player>{
 		}
 	}
 
-
 	@Override
 	//override the toString to for displaying player info and statistics
 	public String toString(){
@@ -138,6 +143,12 @@ class Player implements Comparable<Player>{
 				stats.getNumberOfGamePlayed() + " games,"+
 				stats.getNumberOfGameWon() + " wins," +
 				stats.getNumberOfGameDrawn() + " draws";
+	}
+
+	@Override
+	//get the copy of the player
+	public Player clone(){
+		return new Player(this.userName, this.realName.clone(), this.stats.clone());
 	}
 
 

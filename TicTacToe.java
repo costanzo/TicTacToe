@@ -28,7 +28,7 @@ class TicTacToe{
         PLAYGAME
     }
 	//scanner to collect user input 
-    private Scanner scanner;
+    public static Scanner scanner;
 	
 	//the command type for processing, such as addplayer
     private Command commandType ;
@@ -160,7 +160,7 @@ class TicTacToe{
 	//remove one or all players
     private void removePlayer(){
 		//remove the players according to the given content
-        playerManger.removePlayer(this.commandContent, this.scanner);
+        playerManger.removePlayer(this.commandContent);
     }
 
 	//edit the information of a player
@@ -179,7 +179,7 @@ class TicTacToe{
 
 	//reset the stats of one or all players
     private void resetStats(){
-        playerManger.resetStats(this.commandContent, this.scanner);
+        playerManger.resetStats(this.commandContent);
     }
 
 	//display one or all players
@@ -206,14 +206,14 @@ class TicTacToe{
 
     //make the given two username players play game
     public void makePlayersPlay(String player1UserName, String player2UserName){
-        //first try to get the given names of the players
-        String player1GivenName = playerManger.getGivenNameFromUser(player1UserName);
-        String player2GivenName = playerManger.getGivenNameFromUser(player2UserName);
+        //try get the two players from the user names
+        Player player1 = playerManger.getPlayer(player1UserName);
+        Player player2 = playerManger.getPlayer(player2UserName);
 
 		/*if at least one of the players does not exist
 		   print an error messgae and terminate this command*/
-        if( (player1GivenName == PlayerManager.NO_SUCH_GIVENNAME)
-                || (player2GivenName == PlayerManager.NO_SUCH_GIVENNAME) ){
+        if( (player1 == PlayerManager.NO_SUCH_USERNAME)
+                || (player2 == PlayerManager.NO_SUCH_USERNAME) ){
             System.out.println(GameManager.GAME_ERROR);
             return ;
         }
@@ -221,7 +221,7 @@ class TicTacToe{
         int result ;
 
         //play the game and get the result
-        result = this.gameManager.playGame(player1GivenName, player2GivenName, scanner);
+        result = this.gameManager.playGame(player1, player2);
 
         //store the game result into the player instances
         playerManger.storeGameResult(player1UserName, player2UserName, result);
