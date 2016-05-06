@@ -97,6 +97,15 @@ class Player implements Comparable<Player>{
 		stats.addLose();
 	}
 
+	//try to find if the two player is the same one
+	public boolean equals(Player player){
+		//if the user names of two player are the same, then they are the same players
+		if(this.userName.equals(player.getUserName()))
+			return true;
+		else
+			return false;
+	}
+
 	@Override
 	//override the abstract method in the interface for comparison
 	public int compareTo(Player player){
@@ -144,12 +153,5 @@ class Player implements Comparable<Player>{
 				stats.getNumberOfGameWon() + " wins," +
 				stats.getNumberOfGameDrawn() + " draws";
 	}
-
-	@Override
-	//get the copy of the player
-	public Player clone(){
-		return new Player(this.userName, this.realName.clone(), this.stats.clone());
-	}
-
 
 }

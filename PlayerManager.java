@@ -16,7 +16,6 @@ class PlayerManager{
     public static final int DRAW = 3;
 	
 	//this is a flag used to indicate that no player is found
-    public static final int NO_SUCH_PLAYERNUM = -1;
     public static final Player NO_SUCH_PLAYER = null;
 	
 	//the maximum player number that this player manager can handle
@@ -55,43 +54,29 @@ class PlayerManager{
         resetPlayerManager();
     }
 
-    //get the player instance of the player
-    public Player getPlayer(String userName){
-        //find the player's index first
-        int playerNum = findPlayerNum(userName);
-
-        if(playerNum != NO_SUCH_PLAYERNUM) {
-            //return the player that is needed
-            return playerArray[playerNum].clone();
-        }
-        else{
-            return NO_SUCH_PLAYER;
-        }
-    }
-
 	//remove all the players in the array
     private void resetPlayerManager(){
         playerTotalNum = RESET_PLAYER_NUMBER;
     }
 
 	//find a player given its userName, if not existent, return -1
-    private int findPlayerNum(String userName){
+    public Player getPlayer(String userName){
         String playerUserName;
         if(userName == null){
 			//no username will be null
-		    return NO_SUCH_PLAYERNUM;
+		    return NO_SUCH_PLAYER;
 		}
         for(int i = 0; i < playerTotalNum; i++){
 			//get the username of player i
             playerUserName = playerArray[i].getUserName();
             if(playerUserName.equals(userName)){
 				//if the username is the same as the required one, return its index
-                return i;
+                return playerArray[i];
 			}
         }
 
 		//if can not find the player, just return -1
-        return NO_SUCH_PLAYERNUM;
+        return NO_SUCH_PLAYER;
     }
 
 	//add the given Player instance to the player list
@@ -102,7 +87,7 @@ class PlayerManager{
 		}
 		
         String playerUserName = player.getUserName();
-        if(findPlayerNum(playerUserName) != NO_SUCH_PLAYERNUM){
+        if(getPlayer(playerUserName) != NO_SUCH_PLAYER){
 			//if the player already exists, print an error
             System.out.println(USERNAME_EXISTS_ERROR);
 		}
@@ -128,22 +113,30 @@ class PlayerManager{
 			}
         }
         else{
-			//if one name given, try to get the player index first
-            int playerNum = findPlayerNum(userName);
+			//if one name given, try to get the player instance first
+            Player player = getPlayer(userName);
 			
-            if(playerNum == NO_SUCH_PLAYERNUM){
+            if(player == NO_SUCH_PLAYER){
 				//player does not exist, print error information
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
             else{
 				//remove the specific player
-			    removeOnePlayer(playerNum);
+			    removeOnePlayer(player);
 			}
         }
     }
 
 	//remove one player 
-    private void removeOnePlayer(int playerNum){
+    private void removeOnePlayer(Player player){
+        int playerNum ;
+
+        //trying to find the player's index in the playerArray
+        for(playerNum = 0; playerNum < playerTotalNum; playerNum++ ){
+            if(player.equals(playerArray[playerNum]))
+                break;
+        }
+
         for(int i = playerNum; i < playerTotalNum - 1; i++){
 			//move all the player one step forward to cover the removed player
             playerArray[i] = playerArray[i + 1];
@@ -161,17 +154,17 @@ class PlayerManager{
 
 	//edit one player with given family name and given name
     public void editPlayer(String userName, String familyName, String givenName){
-		//trying to get the player index first
-        int playerNo = findPlayerNum(userName);
+		//trying to get the player instance first
+        Player player = getPlayer(userName);
 		
-        if(playerNo == NO_SUCH_PLAYERNUM){
+        if(player == NO_SUCH_PLAYER){
 			//if no player found, print an error message
             System.out.println(PLAYER_NOT_EXISTS_ERROR);
 		}
         else{
 			//edit the players family name and given name
-            playerArray[playerNo].setFamilyName(familyName);
-            playerArray[playerNo].setGivenName(givenName);
+            player.setFamilyName(familyName);
+            player.setGivenName(givenName);
         }
     }
 
@@ -188,15 +181,15 @@ class PlayerManager{
 			}
         }
         else{
-			//get the player index first
-            int playerNo = findPlayerNum(userName);
-            if( playerNo == NO_SUCH_PLAYERNUM){
+			//try get the player instance first
+            Player player = getPlayer(userName);
+            if( player == NO_SUCH_PLAYER){
 				//if no player found, print an error message
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
             else{
 				//reset statistics of specific player
-                resetOneStats(playerNo);
+                resetOneStats(player);
 			}
         }
     }
@@ -205,32 +198,32 @@ class PlayerManager{
     private void resetAllStats(){
         for( int i = 0; i < playerTotalNum; i++ ){
 			//reset every single player in this array
-            playerArray[i].resetStats();
+            resetOneStats(playerArray[i]);
 		}
     }
 
-	//reset the player statistics based on its index
-    private void resetOneStats(int playerNum){
-		//reset player statistics given its index in the array
-        playerArray[playerNum].resetStats();
+    //reset the player statistics based on its index
+    private void resetOneStats(Player player){
+        //reset player statistics given its instance variable
+        player.resetStats();
     }
 
-	//display one or all player informaiton with required format
+	//display one or all player information with required format
     public void displayPlayer(String userName){
         if(userName == null){
 			//if no username given, display all users
             displayAllPlayers();
         }
         else{
-			//get the player index in the array first
-            int playerNo = findPlayerNum(userName);
-            if(playerNo == NO_SUCH_PLAYERNUM){
+			//get the player instance first
+            Player player = getPlayer(userName);
+            if(player == NO_SUCH_PLAYER){
 				//if no player found, print an error message
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
             else{
 				//display the player according to its index in array
-                displayOnePlayer(playerNo);
+                displayOnePlayer(player);
 			}
         }
     }
@@ -238,26 +231,26 @@ class PlayerManager{
 	//display all player information and statistics
     private void displayAllPlayers(){
 		//create an array that contain all the players' usernames
-        String[] userName = new String[playerTotalNum];
+        String[] userNames = new String[playerTotalNum];
 		
         for(int i = 0; i < playerTotalNum; i++){
 			//copy usernames of the array into the new String array
-            userName[i] = playerArray[i].getUserName();
+            userNames[i] = playerArray[i].getUserName();
 		}
 		
 		//sort the array according to alphabetical sequence 
-        Arrays.sort(userName);
+        Arrays.sort(userNames);
 		
 		//print out all the player information alphabetically
         for(int i = 0; i< playerTotalNum; i++){
-			int playerNum = findPlayerNum(userName[i]);
-            System.out.println(playerArray[playerNum].toString());
+			Player player = getPlayer(userNames[i]);
+            displayOnePlayer(player);
 		}
     }
 
-	//display information and statistics of one player given the index
-    private void displayOnePlayer(int playerNum){
-        System.out.println(playerArray[playerNum].toString());
+    //display information and statistics of one player given the index
+    private void displayOnePlayer(Player player){
+        System.out.println(player.toString());
     }
 
 	//display the ranking of all the players
@@ -297,25 +290,25 @@ class PlayerManager{
 	//when a game finishes, store the game result into the player instance respectively
     public void storeGameResult(String player1UserName, String player2UserName, int resultStats){
 		//first get the player indexes of the two player
-        int player1Num = findPlayerNum(player1UserName);
-        int player2Num = findPlayerNum(player2UserName);
+        Player player1 = getPlayer(player1UserName);
+        Player player2 = getPlayer(player2UserName);
 		
-		//change to statistics of two palyers
+		//change to statistics of two players
         switch (resultStats){
             case WIN:
 			    //player 1 wins player 2
-                playerArray[player1Num].win();
-                playerArray[player2Num].lose();
+                player1.win();
+                player2.lose();
                 break;
             case LOSE:
 			    //player 2 wins player 1
-                playerArray[player1Num].lose();
-                playerArray[player2Num].win();
+                player1.lose();
+                player2.win();
                 break;
             case DRAW:
 			    //the two players get drawn
-                playerArray[player1Num].draw();
-                playerArray[player2Num].draw();
+                player1.draw();
+                player2.draw();
                 break;
             default:
         }

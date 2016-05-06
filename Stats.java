@@ -95,9 +95,4 @@ class Stats {
         this.numberOfGamePlayed++;
     }
 
-    @Override
-    //override the clone method, return a same stats
-    public Stats clone(){
-        return new Stats(this.numberOfGamePlayed, this.numberOfGameWon, this.numberOfGameDrawn);
-    }
 }

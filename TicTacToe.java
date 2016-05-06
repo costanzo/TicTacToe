@@ -18,14 +18,14 @@ class TicTacToe{
 
     //enumerate all command types
     private enum Command{
-        EXIT,
-        ADDPLAYER,
-        REMOVEPLAYER,
-        EDITPLAYER,
-        RESETSTATS,
-        DISPLAYPLAYER,
-        RANKINGS,
-        PLAYGAME
+        EXIT,              //exit the system
+        ADDPLAYER,        //add a player to the playerManager
+        REMOVEPLAYER,     //remove one or all players from playerManager
+        EDITPLAYER,       //edit the player's family name and given name
+        RESETSTATS,       //reset one or all player stats
+        DISPLAYPLAYER,    //display one or more players
+        RANKINGS,          //show the rankings of all players
+        PLAYGAME           //make two players play TicTacToe game
     }
 
 	//scanner to collect user input 

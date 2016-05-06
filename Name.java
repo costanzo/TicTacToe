@@ -45,9 +45,4 @@ class Name {
         this.givenName = givenName;
     }
 
-    @Override
-    //override the clone method
-    public Name clone(){
-        return new Name(this.familyName, this.givenName);
-    }
 }
