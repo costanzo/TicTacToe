@@ -225,7 +225,7 @@ class TicTacToe{
         result = this.gameManager.playGame(player1, player2);
 
         //store the game result into the player instances
-        playerManger.storeGameResult(player1UserName, player2UserName, result);
+        playerManger.storeGameResult(player1, player2, result);
     }
 
 }

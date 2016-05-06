@@ -4,7 +4,7 @@
 * Date: 6th May, 2016
 * Comment: Project B, TicTacToe game solution in COMP90041
 * Description: this class contains all the Player instances
-*              that will be recorded and methods to manulpilate
+*              that will be recorded and methods to manipulate
 *              the players.
 */
 import java.util.Arrays;
@@ -288,11 +288,7 @@ class PlayerManager{
     }
 
 	//when a game finishes, store the game result into the player instance respectively
-    public void storeGameResult(String player1UserName, String player2UserName, int resultStats){
-		//first get the player indexes of the two player
-        Player player1 = getPlayer(player1UserName);
-        Player player2 = getPlayer(player2UserName);
-		
+    public void storeGameResult(Player player1, Player player2, int resultStats){
 		//change to statistics of two players
         switch (resultStats){
             case WIN:

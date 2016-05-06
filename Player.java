@@ -36,12 +36,6 @@ class Player implements Comparable<Player>{
 		this.stats = new Stats();
 	}
 
-	//constructing a player instance with username, realname and stats
-	public Player(String userName, Name realName, Stats stats){
-		this.userName = userName;
-		this.realName = realName;
-		this.stats = stats;
-	}
 	//getter of variable userName
 	public String getUserName() {
 		return userName;
