@@ -27,6 +27,7 @@ class TicTacToe{
         RANKINGS,
         PLAYGAME
     }
+
 	//scanner to collect user input 
     public static Scanner scanner;
 	
@@ -49,7 +50,7 @@ class TicTacToe{
 	
 	//constructor for a default system 
 	public TicTacToe(){
-		this.scanner = new Scanner(System.in);
+        TicTacToe.scanner = new Scanner(System.in);
         this.playerManger = new PlayerManager();
         this.gameManager = new GameManager();
 	}
@@ -80,7 +81,7 @@ class TicTacToe{
 	//collect and split the user input 
     private void processInput(){
 		//get the user inputs
-        String input = this.scanner.nextLine();
+        String input = TicTacToe.scanner.nextLine();
 
         StringTokenizer stOfInput = new StringTokenizer(input,COMMAND_DELIMITER);
 
@@ -140,7 +141,7 @@ class TicTacToe{
 	//exit the game 
     private void exit(){
 		//first close the scanner 
-        this.scanner.close();
+        TicTacToe.scanner.close();
 		
         System.out.println();
         System.exit(0);
@@ -205,15 +206,15 @@ class TicTacToe{
     }
 
     //make the given two username players play game
-    public void makePlayersPlay(String player1UserName, String player2UserName){
+    private void makePlayersPlay(String player1UserName, String player2UserName){
         //try get the two players from the user names
         Player player1 = playerManger.getPlayer(player1UserName);
         Player player2 = playerManger.getPlayer(player2UserName);
 
 		/*if at least one of the players does not exist
-		   print an error messgae and terminate this command*/
-        if( (player1 == PlayerManager.NO_SUCH_USERNAME)
-                || (player2 == PlayerManager.NO_SUCH_USERNAME) ){
+		   print an error message and terminate this command*/
+        if( (player1 == PlayerManager.NO_SUCH_PLAYER)
+                || (player2 == PlayerManager.NO_SUCH_PLAYER) ){
             System.out.println(GameManager.GAME_ERROR);
             return ;
         }

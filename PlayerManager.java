@@ -16,8 +16,8 @@ class PlayerManager{
     public static final int DRAW = 3;
 	
 	//this is a flag used to indicate that no player is found
-    public static final int NO_SUCH_PLAYER = -1;
-    public static final Player NO_SUCH_USERNAME = null;
+    public static final int NO_SUCH_PLAYERNUM = -1;
+    public static final Player NO_SUCH_PLAYER = null;
 	
 	//the maximum player number that this player manager can handle
     public static final int DEFAULT_PLAYER_CAPACITY = 100;
@@ -55,18 +55,17 @@ class PlayerManager{
         resetPlayerManager();
     }
 
-
     //get the player instance of the player
     public Player getPlayer(String userName){
         //find the player's index first
         int playerNum = findPlayerNum(userName);
 
-        if(playerNum != NO_SUCH_PLAYER) {
+        if(playerNum != NO_SUCH_PLAYERNUM) {
             //return the player that is needed
             return playerArray[playerNum].clone();
         }
         else{
-            return NO_SUCH_USERNAME;
+            return NO_SUCH_PLAYER;
         }
     }
 
@@ -80,7 +79,7 @@ class PlayerManager{
         String playerUserName;
         if(userName == null){
 			//no username will be null
-		    return NO_SUCH_PLAYER;
+		    return NO_SUCH_PLAYERNUM;
 		}
         for(int i = 0; i < playerTotalNum; i++){
 			//get the username of player i
@@ -92,7 +91,7 @@ class PlayerManager{
         }
 
 		//if can not find the player, just return -1
-        return NO_SUCH_PLAYER;
+        return NO_SUCH_PLAYERNUM;
     }
 
 	//add the given Player instance to the player list
@@ -103,7 +102,7 @@ class PlayerManager{
 		}
 		
         String playerUserName = player.getUserName();
-        if(findPlayerNum(playerUserName) != NO_SUCH_PLAYER){
+        if(findPlayerNum(playerUserName) != NO_SUCH_PLAYERNUM){
 			//if the player already exists, print an error
             System.out.println(USERNAME_EXISTS_ERROR);
 		}
@@ -132,7 +131,7 @@ class PlayerManager{
 			//if one name given, try to get the player index first
             int playerNum = findPlayerNum(userName);
 			
-            if(playerNum == NO_SUCH_PLAYER){
+            if(playerNum == NO_SUCH_PLAYERNUM){
 				//player does not exist, print error information
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
@@ -165,7 +164,7 @@ class PlayerManager{
 		//trying to get the player index first
         int playerNo = findPlayerNum(userName);
 		
-        if(playerNo == NO_SUCH_PLAYER){
+        if(playerNo == NO_SUCH_PLAYERNUM){
 			//if no player found, print an error message
             System.out.println(PLAYER_NOT_EXISTS_ERROR);
 		}
@@ -191,7 +190,7 @@ class PlayerManager{
         else{
 			//get the player index first
             int playerNo = findPlayerNum(userName);
-            if( playerNo == NO_SUCH_PLAYER){
+            if( playerNo == NO_SUCH_PLAYERNUM){
 				//if no player found, print an error message
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
@@ -225,7 +224,7 @@ class PlayerManager{
         else{
 			//get the player index in the array first
             int playerNo = findPlayerNum(userName);
-            if(playerNo == NO_SUCH_PLAYER){
+            if(playerNo == NO_SUCH_PLAYERNUM){
 				//if no player found, print an error message
                 System.out.println(PLAYER_NOT_EXISTS_ERROR);
 			}
