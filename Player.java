@@ -132,7 +132,7 @@ class Player implements Comparable<Player>{
 			else {
 				//if other statistics are the same, compare based on the competitor usernames
 				String competitorUserName = player.getUserName();
-				return this.userName.compareToIgnoreCase(competitorUserName);
+				return this.userName.compareTo(competitorUserName);
 			}
 		}
 	}
