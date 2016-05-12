@@ -1,8 +1,8 @@
 /*
 * Author: Shuyi Sun
 * Student ID: 731209
-* Date: 6th May, 2016
-* Comment: Project B, TicTacToe game solution in COMP90041
+* Date: 27th May, 2016
+* Comment: Project C, TicTacToe game solution in COMP90041
 * Description: This class is a helper class, contains the
 *              player family name and given name
 */

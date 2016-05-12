@@ -1,13 +1,14 @@
 /*
 * Author: Shuyi Sun
 * Student ID: 731209
-* Date: 6th May, 2016
-* Comment: Project B, TicTacToe game solution in COMP90041
+* Date: 27th May, 2016
+* Comment: Project C, TicTacToe game solution in COMP90041
 * Description: TicTacToe class contains the main class used
 *              to conduct the game, including process user
 *              input and using other classes to handle the 
 *              command.
 */
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -61,11 +62,19 @@ class TicTacToe{
 		systemInitialisation();
 
         do {
-			//collect and split the user inputs 
-            processInput();
-			
-			//choose the exact action to be invoked according to command type
-            chooseAction();
+            try {
+                //collect and split the user inputs
+                processInput();
+
+                //choose the exact action to be invoked according to command type
+                chooseAction();
+            }
+            catch (InvalidCommandException ice){
+                System.out.println(ice.getMessage());
+            }
+            catch (InvalidArgumentNumberException iane){
+                System.out.println(iane.getMessage());
+            }
 			
 			//show the command prompt in the UI 
             showCommandPrompt();
@@ -79,7 +88,7 @@ class TicTacToe{
     }
 
 	//collect and split the user input 
-    private void processInput(){
+    private void processInput() throws InvalidCommandException{
 		//get the user inputs
         String input = TicTacToe.scanner.nextLine();
 
@@ -87,7 +96,13 @@ class TicTacToe{
 
 		//get the command type from the input and change it into enumerate type
         String commandTypeString = stOfInput.nextToken();
-        this.commandType = Command.valueOf(commandTypeString.toUpperCase());
+
+        try {
+            this.commandType = Command.valueOf(commandTypeString.toUpperCase());
+        }
+        catch (Exception e){
+            throw new InvalidCommandException(commandTypeString);
+        }
 		
 		//get the command content
         if(stOfInput.hasMoreTokens()){
@@ -101,7 +116,7 @@ class TicTacToe{
     }
 
 	//take actions according to the user input command type
-    private void chooseAction(){
+    private void chooseAction() throws InvalidArgumentNumberException, InvalidCommandException{
 		//find the suitable action from the command type
         switch(commandType){
             case EXIT :           //exit the system
@@ -142,18 +157,26 @@ class TicTacToe{
     private void exit(){
 		//first close the scanner 
         TicTacToe.scanner.close();
+
+        playerManger.recordPlayerStats();
 		
         System.out.println();
         System.exit(0);
     }
 
 	//add a player to the PlayerManager instance
-    private void addPlayer(){
+    private void addPlayer() throws InvalidArgumentNumberException{
         String userName, familyName, givenName;
         StringTokenizer st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
-        userName = st.nextToken();
-        familyName = st.nextToken();
-        givenName = st.nextToken();
+
+        try {
+            userName = st.nextToken();
+            familyName = st.nextToken();
+            givenName = st.nextToken();
+        }
+        catch (NoSuchElementException e){
+            throw new InvalidArgumentNumberException();
+        }
         Player newPlayer = new Player(userName, new Name(familyName, givenName));
         playerManger.addPlayer(newPlayer);
     }
@@ -165,14 +188,19 @@ class TicTacToe{
     }
 
 	//edit the information of a player
-    private void editPlayer(){
+    private void editPlayer() throws InvalidArgumentNumberException{
         String userName, familyName, givenName;
         StringTokenizer st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
-		
-		//get the user name, family name and given name from the UI input
-        userName = st.nextToken();
-        familyName = st.nextToken();
-        givenName = st.nextToken();
+
+        try {
+            //get the user name, family name and given name from the UI input
+            userName = st.nextToken();
+            familyName = st.nextToken();
+            givenName = st.nextToken();
+        }
+        catch (NoSuchElementException e){
+            throw new InvalidArgumentNumberException();
+        }
 		
 		//edit the player's family name and given name
         playerManger.editPlayer(userName, familyName, givenName);
@@ -194,12 +222,20 @@ class TicTacToe{
     }
 
 	//make the two player play the TicTacToe game
-    private void playGame(){
+    private void playGame() throws InvalidArgumentNumberException{
         StringTokenizer stOfPlayer = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
-		
-		//get the two user names from the UI inputs
-        String player1UserName = stOfPlayer.nextToken();
-        String player2UserName = stOfPlayer.nextToken();
+
+        String player1UserName ;
+        String player2UserName ;
+
+        try {
+            //get the two user names from the UI inputs
+            player1UserName = stOfPlayer.nextToken();
+            player2UserName = stOfPlayer.nextToken();
+        }
+        catch (NoSuchElementException e){
+            throw new InvalidArgumentNumberException();
+        }
 
 		//try to let the two players play the game
         makePlayersPlay(player1UserName, player2UserName);

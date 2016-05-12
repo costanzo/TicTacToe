@@ -1,8 +1,8 @@
 /*
 * Author: Shuyi Sun
 * Student ID: 731209
-* Date: 6th May, 2016
-* Comment: Project B, TicTacToe game solution in COMP90041
+* Date: 27th May, 2016
+* Comment: Project C, TicTacToe game solution in COMP90041
 * Description: This class contain the basic information and 
 *              game statistics of one single player.
 */
@@ -34,6 +34,13 @@ class Player implements Comparable<Player>{
 		this.userName = userName;
 		this.realName = realName;
 		this.stats = new Stats();
+	}
+
+	//constructing an instance with all the necessary information and stats
+	public Player(String userName, Name realName, Stats stats){
+		this.userName = userName;
+		this.realName = realName;
+		this.stats = stats;
 	}
 
 	//getter of variable userName
@@ -146,6 +153,15 @@ class Player implements Comparable<Player>{
 				stats.getNumberOfGamePlayed() + " games,"+
 				stats.getNumberOfGameWon() + " wins," +
 				stats.getNumberOfGameDrawn() + " draws";
+	}
+
+	public String getPlayerInfoStats(){
+		return this.userName + " "
+				+ realName.getFamilyName() + " "
+				+ realName.getGivenName() + " "
+				+ stats.getNumberOfGamePlayed() + " "
+				+ stats.getNumberOfGameWon() + " "
+				+ stats.getNumberOfGameDrawn();
 	}
 
 }

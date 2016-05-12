@@ -1,13 +1,19 @@
 /*
 * Author: Shuyi Sun
 * Student ID: 731209
-* Date: 6th May, 2016
-* Comment: Project B, TicTacToe game solution in COMP90041
+* Date: 27th May, 2016
+* Comment: Project C, TicTacToe game solution in COMP90041
 * Description: this class contains all the Player instances
 *              that will be recorded and methods to manipulate
 *              the players.
 */
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 class PlayerManager{
 	//the constants represent the game result 
@@ -52,6 +58,7 @@ class PlayerManager{
 	public PlayerManager(int totalPlayers){
         playerArray = new Player[totalPlayers];
         resetPlayerManager();
+        resumePlayerStats();
     }
 
 	//remove all the players in the array
@@ -308,6 +315,58 @@ class PlayerManager{
                 break;
             default:
         }
+    }
+
+    public void recordPlayerStats(){
+        PrintWriter outputStream = null;
+        try{
+            outputStream = new PrintWriter(new FileOutputStream("players.dat"));
+        }
+        catch (FileNotFoundException e){
+            System.out.println("Error opening file players.dat");
+            System.exit(0);
+        }
+
+        for(int i = 0 ; i < playerTotalNum ; i++){
+            outputStream.println(playerArray[i].getPlayerInfoStats());
+        }
+
+        outputStream.close();
+    }
+
+    private void resumePlayerStats(){
+        Scanner inputStream = null;
+
+        try{
+            inputStream = new Scanner(new FileInputStream("players.dat"));
+        }
+        catch (FileNotFoundException e){
+            return ;
+        }
+
+        while(inputStream.hasNextLine()){
+            addPlayerFromRecord(inputStream.nextLine());
+        }
+
+        inputStream.close();
+    }
+
+    private void addPlayerFromRecord(String record){
+        StringTokenizer stOfRecord = new StringTokenizer(record);
+
+        String userName = stOfRecord.nextToken();
+        String familyName = stOfRecord.nextToken();
+        String givenName = stOfRecord.nextToken();
+        int numberOfGamePlayed = Integer.parseInt(stOfRecord.nextToken());
+        int numberOfGameWon = Integer.parseInt(stOfRecord.nextToken());
+        int numberOfGameDrawn = Integer.parseInt(stOfRecord.nextToken());
+
+        Name realName = new Name(familyName, givenName);
+        Stats stats = new Stats(numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
+
+        Player player = new Player(userName, realName, stats);
+
+        addPlayer(player);
     }
 
 }

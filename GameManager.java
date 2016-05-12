@@ -1,8 +1,8 @@
 /*
 * Author: Shuyi Sun
 * Student ID: 731209
-* Date: 6th May, 2016
-* Comment: Project B, TicTacToe game solution in COMP90041
+* Date: 27th May, 2016
+* Comment: Project C, TicTacToe game solution in COMP90041
 * Description: this class is used to handle a single game-play
 *              between two players including showing the game  
 *              grid and player intruction.
