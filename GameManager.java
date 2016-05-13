@@ -10,14 +10,14 @@
 
 class GameManager{
 	//these are the marks that will be showed in the grid
-	public static final String MARK_OF_O = "O";
-	public static final String MARK_OF_X = "X";
-	public static final String MARK_OF_EMPTY = " ";
-	public static final String MARK_OF_COLUMN = "|";
-	public static final String MARK_OF_ROW = "-";
+	public static final char MARK_OF_O = 'O';
+	public static final char MARK_OF_X = 'X';
+	public static final char MARK_OF_EMPTY = ' ';
+	public static final char MARK_OF_COLUMN = '|';
+	public static final char MARK_OF_ROW = '-';
 
 	//set the default player name as null
-	public static final String DEFAULT_PLAYER_NAME = null;
+	public static final Player DEFAULT_PLAYER = null;
 
 	//the error code, each one indicates a certain error or no error
 	public static final int NO_ERROR = 0;
@@ -59,21 +59,20 @@ class GameManager{
 
 	//the grid matrix and names of the two players
 	private int[][] grid;
-	private String nameOfPlayerO, nameOfPlayerX;
+	private Player playerO, playerX;
 
 	public GameManager(){
 		//assign the nameOfPlayerX and nameOfPlayerO with default value
-		this(DEFAULT_PLAYER_NAME,DEFAULT_PLAYER_NAME);
+		this(DEFAULT_PLAYER,DEFAULT_PLAYER);
 	}
 
-
-	public GameManager(String nameOfPlayerO, String nameOfPlayerX){
+	public GameManager(Player playerO, Player playerX){
 		//create the grid into the expected size and initialize the grid
 		grid = new int[ROW_UPPERBOUND][COLUMN_UPPERBOUND];
 
 		//initialize the player names with null
-		this.nameOfPlayerO = nameOfPlayerO;
-		this.nameOfPlayerX = nameOfPlayerX;
+		this.playerO = playerO;
+		this.playerX = playerX;
 	}
 
 	//clear the grid for the new players
@@ -88,9 +87,9 @@ class GameManager{
 		//clear the grid for new players
 		resetGrid();
 
-		//replace the default player name with given players' given names
-		this.nameOfPlayerO = player1.getGivenName();
-		this.nameOfPlayerX = player2.getGivenName();
+		//replace the default player with given players
+		this.playerO = player1;
+		this.playerX = player2;
 
 		//flag to decide if it is player O's turn
 		boolean isPlayerOTurn = true;
@@ -104,11 +103,11 @@ class GameManager{
 		//for loop for each turn
 		while(gameResultType == GAME_CONTINUE){
 			if(isPlayerOTurn){              //player O's turn
-				nextMove(PLAYER_O_MARK, nameOfPlayerO);
+				nextMove(PLAYER_O_MARK, playerO);
 				isPlayerOTurn = false;
 			}
 			else{                           //player X's turn
-				nextMove(PLAYER_X_MARK, nameOfPlayerX);
+				nextMove(PLAYER_X_MARK, playerX);
 				isPlayerOTurn = true;
 			}
 			//print out the grid and check the state of the game
@@ -126,15 +125,20 @@ class GameManager{
 	}
 
 	//print and record the next step of the certain player
-	private void nextMove(int playerMark, String playerName) {
+	private void nextMove(int playerMark, Player player) {
 		int rowOfMark, columnOfMark;
 
 		do {
-			System.out.println(playerName + "'s move:");
+			System.out.println(player.getGivenName() + "'s move:");
 
-			//get the row and column the player
-			rowOfMark = TicTacToe.scanner.nextInt();
-			columnOfMark = TicTacToe.scanner.nextInt();
+			Move move = player.makeMove(transferGrid());
+
+			if(move == null){
+				System.exit(0);
+			}
+
+			rowOfMark = move.getRow();
+			columnOfMark = move.getColumn();
 
 	    }while (!isGridAvailable(rowOfMark, columnOfMark));
 
@@ -179,9 +183,9 @@ class GameManager{
 	//when the game finishes, print out the game result
 	private void printResult(int resultType){
 		if(resultType == PLAYER_O_WON)
-			System.out.println("Game over. " + nameOfPlayerO + " won!");
+			System.out.println("Game over. " + playerO.getGivenName() + " won!");
 		else if(resultType == PLAYER_X_WON)
-			System.out.println("Game over. " + nameOfPlayerX + " won!");
+			System.out.println("Game over. " + playerX.getGivenName() + " won!");
 		else
 			System.out.println("Game over. It was a draw!");
 	}
@@ -269,6 +273,29 @@ class GameManager{
 				if(grid[i][j] == EMPTY_MARK)
 					return false;
 		return true;
+	}
+
+	private char[][] transferGrid(){
+		char[][] cGrid = new char[3][3];
+
+		for(int i = ROW_LOWERBOUND ; i< ROW_UPPERBOUND ; i++)
+			for(int j = COLUMN_LOWERBOUND; j < COLUMN_UPPERBOUND ; j++){
+				switch (grid[i][j]){
+					case EMPTY_MARK:
+						cGrid[i][j] = MARK_OF_EMPTY;
+						break;
+					case PLAYER_O_MARK:
+						cGrid[i][j] = MARK_OF_O;
+						break;
+					case PLAYER_X_MARK:
+						cGrid[i][j] = MARK_OF_X;
+						break;
+					default:
+						break;
+				}
+			}
+
+		return cGrid;
 	}
 	
 }

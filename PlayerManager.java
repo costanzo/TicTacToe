@@ -16,6 +16,8 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 class PlayerManager{
+    public static final String AIPLAYER_TYPE = "AIPlayer";
+
 	//the constants represent the game result 
     public static final int WIN = 1;
     public static final int LOSE = 2;
@@ -360,11 +362,18 @@ class PlayerManager{
         int numberOfGamePlayed = Integer.parseInt(stOfRecord.nextToken());
         int numberOfGameWon = Integer.parseInt(stOfRecord.nextToken());
         int numberOfGameDrawn = Integer.parseInt(stOfRecord.nextToken());
+        String playerType = stOfRecord.nextToken();
 
         Name realName = new Name(familyName, givenName);
         Stats stats = new Stats(numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
 
-        Player player = new Player(userName, realName, stats);
+        Player player;
+        if(playerType.equals(AIPLAYER_TYPE)){
+            player = new AIPlayer(userName, realName, stats);
+        }
+        else{
+            player = new HumanPlayer(userName, realName, stats);
+        }
 
         addPlayer(player);
     }

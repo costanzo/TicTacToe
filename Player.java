@@ -7,7 +7,7 @@
 *              game statistics of one single player.
 */
 
-class Player implements Comparable<Player>{
+abstract class Player implements Comparable<Player>{
 	//the static constant is used for comparing player results
 	public static final int BETTER = -1;
 	public static final int WORSE = 1;
@@ -161,7 +161,10 @@ class Player implements Comparable<Player>{
 				+ realName.getGivenName() + " "
 				+ stats.getNumberOfGamePlayed() + " "
 				+ stats.getNumberOfGameWon() + " "
-				+ stats.getNumberOfGameDrawn();
+				+ stats.getNumberOfGameDrawn() + " "
+				+ this.getClass();
 	}
+
+	public abstract Move makeMove(char[][] gameBoard);
 
 }

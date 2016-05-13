@@ -26,7 +26,8 @@ class TicTacToe{
         RESETSTATS,       //reset one or all player stats
         DISPLAYPLAYER,    //display one or more players
         RANKINGS,          //show the rankings of all players
-        PLAYGAME           //make two players play TicTacToe game
+        PLAYGAME,           //make two players play TicTacToe game
+        ADDAIPLAYER         //add an AI player to player list
     }
 
 	//scanner to collect user input 
@@ -143,6 +144,9 @@ class TicTacToe{
             case PLAYGAME:        //make two players play the game
                 playGame();
                 break;
+            case ADDAIPLAYER:
+                addPlayer();
+                break;
             default:
         }
     }
@@ -166,18 +170,26 @@ class TicTacToe{
 
 	//add a player to the PlayerManager instance
     private void addPlayer() throws InvalidArgumentNumberException{
-        String userName, familyName, givenName;
-        StringTokenizer st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
+        String userName = null, familyName = null, givenName = null;
+        StringTokenizer st = null;
 
         try {
+            st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
             userName = st.nextToken();
             familyName = st.nextToken();
             givenName = st.nextToken();
         }
-        catch (NoSuchElementException e){
+        catch (Exception e){
             throw new InvalidArgumentNumberException();
         }
-        Player newPlayer = new Player(userName, new Name(familyName, givenName));
+
+        Player newPlayer = null;
+        if(this.commandType == Command.ADDPLAYER) {
+            newPlayer = new HumanPlayer(userName, new Name(familyName, givenName));
+        }
+        else{
+            newPlayer = new AIPlayer(userName, new Name(familyName, givenName));
+        }
         playerManger.addPlayer(newPlayer);
     }
 
@@ -189,16 +201,17 @@ class TicTacToe{
 
 	//edit the information of a player
     private void editPlayer() throws InvalidArgumentNumberException{
-        String userName, familyName, givenName;
-        StringTokenizer st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
+        String userName = null, familyName = null, givenName = null;
+        StringTokenizer st = null;
 
         try {
+            st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
             //get the user name, family name and given name from the UI input
             userName = st.nextToken();
             familyName = st.nextToken();
             givenName = st.nextToken();
         }
-        catch (NoSuchElementException e){
+        catch (Exception e){
             throw new InvalidArgumentNumberException();
         }
 		
@@ -223,17 +236,18 @@ class TicTacToe{
 
 	//make the two player play the TicTacToe game
     private void playGame() throws InvalidArgumentNumberException{
-        StringTokenizer stOfPlayer = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
+        StringTokenizer stOfPlayer = null;
 
-        String player1UserName ;
-        String player2UserName ;
+        String player1UserName = null;
+        String player2UserName = null;
 
         try {
+            stOfPlayer = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
             //get the two user names from the UI inputs
             player1UserName = stOfPlayer.nextToken();
             player2UserName = stOfPlayer.nextToken();
         }
-        catch (NoSuchElementException e){
+        catch (Exception e){
             throw new InvalidArgumentNumberException();
         }
 
