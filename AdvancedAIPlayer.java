@@ -15,7 +15,7 @@ class AdvancedAIPlayer extends Player {
 
     @Override
     public Move makeMove(char[][] gameBoard){
-		if(aiMark == null){
+		if(aiMark == '\u0000'){
 			findPlayerMark();
 		}
         this.bestMove = null;
