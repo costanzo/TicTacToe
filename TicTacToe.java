@@ -28,6 +28,7 @@ class TicTacToe{
         RANKINGS,          //show the rankings of all players
         PLAYGAME,           //make two players play TicTacToe game
         ADDAIPLAYER         //add an AI player to player list
+		ADDADVANCEDAIPLAYER
     }
 
 	//scanner to collect user input 
@@ -147,6 +148,9 @@ class TicTacToe{
             case ADDAIPLAYER:
                 addPlayer();
                 break;
+			case ADDADVANCEDAIPLAYER;
+			    addPlayer();
+				break;
             default:
         }
     }
@@ -187,9 +191,13 @@ class TicTacToe{
         if(this.commandType == Command.ADDPLAYER) {
             newPlayer = new HumanPlayer(userName, new Name(familyName, givenName));
         }
-        else{
+        else if(this.commandType == Command.ADDAIPLAYER){
             newPlayer = new AIPlayer(userName, new Name(familyName, givenName));
         }
+		else{
+			newPlayer = new AdvancedAIPlayer(userName, new Name(familyName, givenName));
+		}
+		
         playerManger.addPlayer(newPlayer);
     }
 

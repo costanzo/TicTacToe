@@ -15,6 +15,9 @@ class AdvancedAIPlayer extends Player {
 
     @Override
     public Move makeMove(char[][] gameBoard){
+		if(aiMark == null){
+			findPlayerMark();
+		}
         this.bestMove = null;
         MaxMin(gameBoard, this.aiMark, FIRST_ROUND);
         return this.bestMove;
@@ -59,10 +62,10 @@ class AdvancedAIPlayer extends Player {
     private int getMoveResult(char[][] gameBoard, Move move, char playMark, int roundNum){
         char[][] newGameBoard = copyGameBoard(gameBoard);
         newGameBoard[move.getRow()][move.getColumn()] = playMark;
-        if(aiWin(newGameBoard)){
+        if(win(newGameBoard, aiMark)){
             return WIN_SCORE;
         }
-        else if(humanWin(newGameBoard)){
+        else if(win(newGameBoard, humanMark)){
             return LOSE_SCORE;
         }
         else if(drawn(newGameBoard)){
@@ -81,16 +84,38 @@ class AdvancedAIPlayer extends Player {
 
 
     private void findPlayerMark(){
-
+		int countEmptyCells = 0;
+        for(int i = GameManager.ROW_LOWERBOUND; i < GameManager.ROW_UPPERBOUND; i++)
+            for (int j = GameManager.COLUMN_LOWERBOUND ;j < GameManager.COLUMN_UPPERBOUND; j++)
+                if(gameBoard[i][j] == GameManager.MARK_OF_EMPTY){
+					countEmptyCells ++;
+				}
+		
+		if(countEmptyCells == GameManager.ROW_UPPERBOUND * GameManager.COLUMN_UPPERBOUND){
+			this.aiMark = GameManager.MARK_OF_O;
+			this.humanMark = GameManager.MARK_OF_X;
+		}
+		else{
+			this.aiMark = GameManager.MARK_OF_X;
+			this.humanMark = GameManager.MARK_OF_O;
+		}
+        
     }
-
-    private boolean aiWin(char[][] gameBoard){
-
-    }
-
-    private boolean humanWin(char[][] gameBoard){
-
-    }
+	
+	private boolean win(char[][] gameBoard, char mark){
+		if((gameBoard[0][0] == mark && gameBoard[0][1] == mark && gameBoard[0][2] == mark)||
+		    (gameBoard[1][0] == mark && gameBoard[1][1] == mark && gameBoard[1][2] == mark) ||
+		    (gameBoard[2][0] == mark && gameBoard[2][1] == mark && gameBoard[2][2] == mark) ||
+		    (gameBoard[0][0] == mark && gameBoard[1][0] == mark && gameBoard[2][0] == mark) ||
+		    (gameBoard[0][1] == mark && gameBoard[1][1] == mark && gameBoard[2][1] == mark) ||
+		    (gameBoard[0][2] == mark && gameBoard[1][2] == mark && gameBoard[2][2] == mark) ||
+		    (gameBoard[0][0] == mark && gameBoard[1][1] == mark && gameBoard[2][2] == mark) ||   
+		    (gameBoard[0][2] == mark && gameBoard[1][1] == mark && gameBoard[2][0] == mark))
+		    return true;
+		else{
+			return false;
+		}
+	}
 
     private boolean drawn(char[][] gameBoard){
         for(int i = GameManager.ROW_LOWERBOUND; i < GameManager.ROW_UPPERBOUND; i++)
