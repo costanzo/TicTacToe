@@ -148,7 +148,7 @@ class TicTacToe{
             case ADDAIPLAYER:
                 addPlayer();
                 break;
-			case ADDADVANCEDAIPLAYER;
+			case ADDADVANCEDAIPLAYER:
 			    addPlayer();
 				break;
             default:
