@@ -195,7 +195,7 @@ class TicTacToe{
             newPlayer = new AIPlayer(userName, new Name(familyName, givenName));
         }
 		else{
-			newPlayer = new AdvancedAIPlayer(userName, new Name(familyName, givenName));
+			newPlayer = new AdvancedAIPlayer();
 		}
 		
         playerManger.addPlayer(newPlayer);

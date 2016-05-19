@@ -5,6 +5,8 @@ class AdvancedAIPlayer extends Player {
 
     public static final int FIRST_ROUND = 0;
 
+    public static final char DEFAULT_MARK = '\u0000';
+
     private char aiMark;
     private char humanMark;
 
@@ -15,8 +17,8 @@ class AdvancedAIPlayer extends Player {
 
     @Override
     public Move makeMove(char[][] gameBoard){
-		if(aiMark == '\u0000'){
-			findPlayerMark();
+		if(aiMark == DEFAULT_MARK){
+			findPlayerMark(gameBoard);
 		}
         this.bestMove = null;
         MaxMin(gameBoard, this.aiMark, FIRST_ROUND);
@@ -83,7 +85,7 @@ class AdvancedAIPlayer extends Player {
     }
 
 
-    private void findPlayerMark(){
+    private void findPlayerMark(char[][] gameBoard){
 		int countEmptyCells = 0;
         for(int i = GameManager.ROW_LOWERBOUND; i < GameManager.ROW_UPPERBOUND; i++)
             for (int j = GameManager.COLUMN_LOWERBOUND ;j < GameManager.COLUMN_UPPERBOUND; j++)
@@ -126,7 +128,7 @@ class AdvancedAIPlayer extends Player {
     }
 
     private char[][] copyGameBoard(char[][] gameBoard){
-        char[][] newGameBoard = new char[GameManager.ROW_UPPERBOUND][GameManager.ROW_UPPERBOUND]
+        char[][] newGameBoard = new char[GameManager.ROW_UPPERBOUND][GameManager.ROW_UPPERBOUND];
         for(int i = GameManager.ROW_LOWERBOUND ; i < GameManager.ROW_UPPERBOUND ; i++)
             for(int j = GameManager.COLUMN_LOWERBOUND ; j < GameManager.ROW_UPPERBOUND ; j++){
                 newGameBoard[i][j] = gameBoard[i][j];
