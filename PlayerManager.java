@@ -16,6 +16,8 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 class PlayerManager{
+    public static final String DATA_FILE = "players.dat";
+
     public static final String AIPLAYER_TYPE = "AIPlayer";
     public static final String ADVANCED_AIPLAYER_TYPE = "AdvancedAIPlayer";
     public static final String HUMAN_PLAYER_TYPE = "HumanPlayer";
@@ -48,6 +50,8 @@ class PlayerManager{
             USERNAME_EXISTS_ERROR = "The username has been used already.";
     public static final String
             PLAYER_NOT_EXISTS_ERROR = "The player does not exist.";
+    public static final String
+            FILE_ERROR = "Error opening file players.dat";
 
 	//the player array and the total number of players
     private Player[] playerArray;
@@ -282,11 +286,11 @@ class PlayerManager{
 	//format the game statistics of certain player
     private void formatResult(Player player){
 		//print the winning ratio into XX% format 
-        System.out.printf(" %3d", (int)(player.getWinningRatio()*100));
+        System.out.printf(" %3d", Math.round(player.getWinningRatio()*100));
         System.out.print("% | ");
 		
 		//print the drawn ratio into XX% format
-        System.out.printf("%3d", (int)(player.getDrawnRatio()*100));
+        System.out.printf("%3d", Math.round(player.getDrawnRatio()*100));
         System.out.print("% | ");
 		
 		//print the number of game played into XX format
@@ -324,10 +328,10 @@ class PlayerManager{
     public void recordPlayerStats(){
         PrintWriter outputStream = null;
         try{
-            outputStream = new PrintWriter(new FileOutputStream("players.dat"));
+            outputStream = new PrintWriter(new FileOutputStream(DATA_FILE));
         }
         catch (FileNotFoundException e){
-            System.out.println("Error opening file players.dat");
+            System.out.println(FILE_ERROR);
             System.exit(0);
         }
 
@@ -342,7 +346,7 @@ class PlayerManager{
         Scanner inputStream = null;
 
         try{
-            inputStream = new Scanner(new FileInputStream("players.dat"));
+            inputStream = new Scanner(new FileInputStream(DATA_FILE));
         }
         catch (FileNotFoundException e){
             return ;
@@ -367,18 +371,15 @@ class PlayerManager{
         stOfRecord.nextToken();
         String playerType = stOfRecord.nextToken();
 
-        Name realName = new Name(familyName, givenName);
-        Stats stats = new Stats(numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
-
         Player player = null;
         if(playerType.equals(AIPLAYER_TYPE)){
-            player = new AIPlayer(userName, realName, stats);
+            player = new AIPlayer(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
         }
         else if(playerType.equals(ADVANCED_AIPLAYER_TYPE)){
             player = new AdvancedAIPlayer();
         }
         else if(playerType.equals(HUMAN_PLAYER_TYPE)){
-            player = new HumanPlayer(userName, realName, stats);
+            player = new HumanPlayer(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
         }
         else{
             System.exit(-1);

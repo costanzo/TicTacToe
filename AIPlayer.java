@@ -1,14 +1,13 @@
 class AIPlayer extends Player{
-    public AIPlayer(){
-        super();
+    public AIPlayer() {
     }
 
-    public AIPlayer(String userName, Name realName){
-        super(userName, realName);
+    public AIPlayer(String userName, String familyName, String givenName) {
+        super(userName, familyName, givenName);
     }
 
-    public AIPlayer(String userName, Name realName, Stats stats){
-        super(userName, realName, stats);
+    public AIPlayer(String userName, String familyName, String givenName, int numberOfGamePlayed, int numberOfGameWon, int numberOfGameDrawn) {
+        super(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
     }
 
     @Override

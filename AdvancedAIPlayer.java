@@ -84,7 +84,6 @@ class AdvancedAIPlayer extends Player {
 
     }
 
-
     private void findPlayerMark(char[][] gameBoard){
 		int countEmptyCells = 0;
         for(int i = GameManager.ROW_LOWERBOUND; i < GameManager.ROW_UPPERBOUND; i++)

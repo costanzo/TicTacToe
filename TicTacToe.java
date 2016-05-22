@@ -189,10 +189,10 @@ class TicTacToe{
 
         Player newPlayer = null;
         if(this.commandType == Command.ADDPLAYER) {
-            newPlayer = new HumanPlayer(userName, new Name(familyName, givenName));
+            newPlayer = new HumanPlayer(userName, familyName, givenName);
         }
         else if(this.commandType == Command.ADDAIPLAYER){
-            newPlayer = new AIPlayer(userName, new Name(familyName, givenName));
+            newPlayer = new AIPlayer(userName, familyName, givenName);
         }
 		else{
 			newPlayer = new AdvancedAIPlayer();

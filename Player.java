@@ -8,39 +8,56 @@
 */
 
 abstract class Player implements Comparable<Player>{
+	//this constant is for the situation that the player does not play any game
+	public static final float ZERO_RATIO = 0;
+
+	//when reset the player result, use this as default number
+	public static final int DEFAULT_GAME_NUMBER = 0;
+
 	//the static constant is used for comparing player results
 	public static final int BETTER = -1;
 	public static final int WORSE = 1;
 
     //the constant for the default username
 	public static final String DEFAULT_USERNAME = "username";
+	public static final String DEFAULT_FAMILYNAME = "familyname";
+	public static final String DEFAULT_GIVENNAME = "givenname";
 
 	//the user basic information variables
 	private String userName;
 
-	//the player's official name
-	private Name realName;
+	private String familyName;
+	private String givenName;
 
-	//the player's game statistics
-	private Stats stats;
+	//the user game statistics variables
+	private int numberOfGamePlayed;
+	private int numberOfGameWon;
+	private int numberOfGameDrawn;
 
 	public Player(){
-		this(DEFAULT_USERNAME, new Name());
+		this(DEFAULT_USERNAME, DEFAULT_FAMILYNAME, DEFAULT_GIVENNAME);
 	}
 
 	//constructing a instance with given player information
-	public Player(String userName, Name realName){
+	public Player(String userName, String familyName, String givenName){
 		//set the player info with given strings
 		this.userName = userName;
-		this.realName = realName;
-		this.stats = new Stats();
+		this.familyName = familyName;
+		this.givenName = givenName;
+		this.numberOfGamePlayed = DEFAULT_GAME_NUMBER;
+		this.numberOfGameDrawn = DEFAULT_GAME_NUMBER;
+		this.numberOfGameWon = DEFAULT_GAME_NUMBER;
 	}
 
 	//constructing an instance with all the necessary information and stats
-	public Player(String userName, Name realName, Stats stats){
+	public Player(String userName, String familyName, String givenName,
+				  int numberOfGamePlayed, int numberOfGameWon, int numberOfGameDrawn){
 		this.userName = userName;
-		this.realName = realName;
-		this.stats = stats;
+		this.familyName = familyName;
+		this.givenName = givenName;
+		this.numberOfGameDrawn = numberOfGameDrawn;
+		this.numberOfGameWon = numberOfGameWon;
+		this.numberOfGamePlayed = numberOfGamePlayed;
 	}
 
 	//getter of variable userName
@@ -50,52 +67,50 @@ abstract class Player implements Comparable<Player>{
 
 	//get the player's given name
 	public String getGivenName(){
-		return realName.getGivenName();
+		return this.givenName;
 	}
 
 	//edit the player's family name
 	public void setFamilyName(String familyName){
-		realName.setFamilyName(familyName);
+		this.familyName = familyName;
 	}
 
 	//edit the player's given name
 	public void setGivenName(String givenName){
-		realName.setGivenName(givenName);
-	}
-
-	//get the player's winning ratio
-	public float getWinningRatio(){
-		return stats.getWinningRatio();
-	}
-
-	//get the player's drawn ratio
-	public float getDrawnRatio(){
-		return stats.getDrawnRatio();
+		this.givenName = givenName;
 	}
 
 	//get the player's total number of game played
 	public int getNumberOfGamePlayed(){
-		return stats.getNumberOfGamePlayed();
+		return this.numberOfGamePlayed;
 	}
 
 	//reset the player's game statistics
 	public void resetStats(){
-		stats.resetStats();
+		//all the game statistics will be set to the default value
+		this.numberOfGamePlayed = DEFAULT_GAME_NUMBER;
+		this.numberOfGameDrawn = DEFAULT_GAME_NUMBER;
+		this.numberOfGameWon = DEFAULT_GAME_NUMBER;
 	}
 
 	//add a winning match to the player's stats
 	public void win(){
-		stats.addWin();
+		//total game number and winning game number plus one
+		this.numberOfGamePlayed++;
+		this.numberOfGameWon++;
 	}
 
 	//add a drawn match to player's stats
 	public void draw(){
-		stats.addDraw();
+		//total game number and drawn game number plus one
+		this.numberOfGamePlayed++;
+		this.numberOfGameDrawn++;
 	}
 
 	//add a lose match to player's stats
 	public void lose(){
-		stats.addLose();
+		//only the total game number should plus one
+		this.numberOfGamePlayed++;
 	}
 
 	//try to find if the two player is the same one
@@ -148,23 +163,46 @@ abstract class Player implements Comparable<Player>{
 	//override the toString to for displaying player info and statistics
 	public String toString(){
 		return userName + "," +
-				realName.getFamilyName() + "," +
-				realName.getGivenName() + "," +
-				stats.getNumberOfGamePlayed() + " games,"+
-				stats.getNumberOfGameWon() + " wins," +
-				stats.getNumberOfGameDrawn() + " draws";
+				familyName + "," +
+				givenName + "," +
+				numberOfGamePlayed + " games,"+
+				numberOfGameWon + " wins," +
+				numberOfGameDrawn + " draws";
 	}
 
 	public String getPlayerInfoStats(){
 		return this.userName + " "
-				+ realName.getFamilyName() + " "
-				+ realName.getGivenName() + " "
-				+ stats.getNumberOfGamePlayed() + " "
-				+ stats.getNumberOfGameWon() + " "
-				+ stats.getNumberOfGameDrawn() + " "
-				+ this.getClass();
+				+ familyName + " "
+				+ givenName + " "
+				+ numberOfGamePlayed + " "
+				+ numberOfGameWon + " "
+				+ numberOfGameDrawn + " "
+				+ getClass();
 	}
 
 	public abstract Move makeMove(char[][] gameBoard);
 
+	//get the winning ratio of the player, if no game played, return zero
+	public float getWinningRatio(){
+		if(numberOfGamePlayed != DEFAULT_GAME_NUMBER){
+			//if at least one game played, return a float number as winning ratio
+			return ((float)numberOfGameWon) / numberOfGamePlayed ;
+		}
+		else{
+			//if no game played, return a float zero
+			return ZERO_RATIO;
+		}
+	}
+
+	//get the drawn ratio of the player, if no game played, return zero
+	public float getDrawnRatio(){
+		if(numberOfGamePlayed != DEFAULT_GAME_NUMBER){
+			//if at least one game played, return a float number as drawn ratio
+			return ((float)numberOfGameDrawn) / numberOfGamePlayed ;
+		}
+		else{
+			//if no game played, return a float zero
+			return ZERO_RATIO;
+		}
+	}
 }

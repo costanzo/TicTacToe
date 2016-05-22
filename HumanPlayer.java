@@ -1,14 +1,13 @@
 class HumanPlayer extends Player{
-    public HumanPlayer(){
-        super();
+    public HumanPlayer() {
     }
 
-    public HumanPlayer(String userName, Name realName){
-        super(userName, realName);
+    public HumanPlayer(String userName, String familyName, String givenName) {
+        super(userName, familyName, givenName);
     }
 
-    public HumanPlayer(String userName, Name realName, Stats stats){
-        super(userName, realName, stats);
+    public HumanPlayer(String userName, String familyName, String givenName, int numberOfGamePlayed, int numberOfGameWon, int numberOfGameDrawn) {
+        super(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
     }
 
     @Override
