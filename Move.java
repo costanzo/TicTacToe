@@ -7,8 +7,15 @@
 *              move
 */
 class Move {
+    public static final int DEFAULT_ROW = 0;
+    public static final int DEFAULT_COLUMN = 0;
+
     private int row;
     private int column;
+
+    public Move(){
+        this(DEFAULT_ROW, DEFAULT_COLUMN);
+    }
 
     public Move(int row, int column){
         this.row = row;

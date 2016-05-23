@@ -25,7 +25,6 @@ abstract class Player implements Comparable<Player>{
 
 	//the user basic information variables
 	private String userName;
-
 	private String familyName;
 	private String givenName;
 

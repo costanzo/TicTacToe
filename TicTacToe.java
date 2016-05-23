@@ -28,7 +28,6 @@ class TicTacToe{
         RANKINGS,          //show the rankings of all players
         PLAYGAME,           //make two players play TicTacToe game
         ADDAIPLAYER,         //add an AI player to player list
-		ADDADVANCEDAIPLAYER
     }
 
 	//scanner to collect user input 
@@ -118,7 +117,7 @@ class TicTacToe{
     }
 
 	//take actions according to the user input command type
-    private void chooseAction() throws InvalidArgumentNumberException, InvalidCommandException{
+    private void chooseAction() throws InvalidArgumentNumberException{
 		//find the suitable action from the command type
         switch(commandType){
             case EXIT :           //exit the system
@@ -139,18 +138,15 @@ class TicTacToe{
             case DISPLAYPLAYER:   //display one or all players
                 displayPlayer();
                 break;
-            case RANKINGS:        //displayer the ranking of all players
+            case RANKINGS:        //display the ranking of all players
                 rankings();
                 break;
             case PLAYGAME:        //make two players play the game
                 playGame();
                 break;
-            case ADDAIPLAYER:
+            case ADDAIPLAYER:     //add an AI player
                 addPlayer();
                 break;
-			case ADDADVANCEDAIPLAYER:
-			    addPlayer();
-				break;
             default:
         }
     }
@@ -191,12 +187,9 @@ class TicTacToe{
         if(this.commandType == Command.ADDPLAYER) {
             newPlayer = new HumanPlayer(userName, familyName, givenName);
         }
-        else if(this.commandType == Command.ADDAIPLAYER){
+        else{
             newPlayer = new AIPlayer(userName, familyName, givenName);
         }
-		else{
-			newPlayer = new AdvancedAIPlayer();
-		}
 		
         playerManger.addPlayer(newPlayer);
     }
