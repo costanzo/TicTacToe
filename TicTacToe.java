@@ -27,7 +27,7 @@ class TicTacToe{
         DISPLAYPLAYER,    //display one or more players
         RANKINGS,          //show the rankings of all players
         PLAYGAME,           //make two players play TicTacToe game
-        ADDAIPLAYER,         //add an AI player to player list
+        ADDAIPLAYER         //add an AI player to player list
     }
 
 	//scanner to collect user input 
