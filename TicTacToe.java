@@ -63,6 +63,7 @@ class TicTacToe{
 		systemInitialisation();
 
         do {
+			//this block is going to process all the exceptions
             try {
                 //collect and split the user inputs
                 processInput();
@@ -71,9 +72,13 @@ class TicTacToe{
                 chooseAction();
             }
             catch (InvalidCommandException ice){
+				//when an invalid command exception occur,
+                //show the message and return to prompt
                 System.out.println(ice.getMessage());
             }
             catch (InvalidArgumentNumberException iane){
+				//when argument number is less than expected
+				//show the error message and return to prompt
                 System.out.println(iane.getMessage());
             }
 			
@@ -88,7 +93,7 @@ class TicTacToe{
         showCommandPrompt();
     }
 
-	//collect and split the user input 
+	//collect and split the user input, throw exception if command is invalid
     private void processInput() throws InvalidCommandException{
 		//get the user inputs
         String input = TicTacToe.scanner.nextLine();
@@ -99,9 +104,11 @@ class TicTacToe{
         String commandTypeString = stOfInput.nextToken();
 
         try {
+			//try to find if the input is a valid command
             this.commandType = Command.valueOf(commandTypeString.toUpperCase());
         }
         catch (Exception e){
+			//throw the exception and escape the method
             throw new InvalidCommandException(commandTypeString);
         }
 		
@@ -116,7 +123,8 @@ class TicTacToe{
 		}
     }
 
-	//take actions according to the user input command type
+	/*take actions according to the user input command type and throw exception
+	if the argument number is less than expected*/
     private void chooseAction() throws InvalidArgumentNumberException{
 		//find the suitable action from the command type
         switch(commandType){
@@ -162,6 +170,7 @@ class TicTacToe{
 		//first close the scanner 
         TicTacToe.scanner.close();
 
+		//when system exit, save all the data to a local file
         playerManger.recordPlayerStats();
 		
         System.out.println();
@@ -170,27 +179,34 @@ class TicTacToe{
 
 	//add a player to the PlayerManager instance
     private void addPlayer() throws InvalidArgumentNumberException{
+		//create variables for the arguments and set the default valueOf
         String userName = null, familyName = null, givenName = null;
         StringTokenizer st = null;
 
         try {
+			//when there is no argument or not enough argument, throw exception
             st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
             userName = st.nextToken();
             familyName = st.nextToken();
             givenName = st.nextToken();
         }
         catch (Exception e){
+			//terminate the method and throw a the InvalidArgumentNumberException
             throw new InvalidArgumentNumberException();
         }
 
+		//an anonymous instance to be defined
         Player newPlayer = null;
         if(this.commandType == Command.ADDPLAYER) {
+			//if command ask to add a human player
             newPlayer = new HumanPlayer(userName, familyName, givenName);
         }
         else{
+			//if command ask to add an aiplayer
             newPlayer = new AIPlayer(userName, familyName, givenName);
         }
 		
+		//add a player to the player list
         playerManger.addPlayer(newPlayer);
     }
 
@@ -200,19 +216,23 @@ class TicTacToe{
         playerManger.removePlayer(this.commandContent);
     }
 
-	//edit the information of a player
+	//edit the information of a player and try to throw exception
     private void editPlayer() throws InvalidArgumentNumberException{
+		//create some variables and set the default value
         String userName = null, familyName = null, givenName = null;
         StringTokenizer st = null;
 
         try {
+			//when there is no argument or not enough argument, throw exception
             st = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
+			
             //get the user name, family name and given name from the UI input
             userName = st.nextToken();
             familyName = st.nextToken();
             givenName = st.nextToken();
         }
         catch (Exception e){
+			//terminate the method and throw a the InvalidArgumentNumberException
             throw new InvalidArgumentNumberException();
         }
 		
@@ -237,18 +257,21 @@ class TicTacToe{
 
 	//make the two player play the TicTacToe game
     private void playGame() throws InvalidArgumentNumberException{
+		//create some variables and set the default value
         StringTokenizer stOfPlayer = null;
-
         String player1UserName = null;
         String player2UserName = null;
 
         try {
+			//when there is no argument or not enough argument, throw exception
             stOfPlayer = new StringTokenizer(this.commandContent, CONTENT_DELIMITER);
+			
             //get the two user names from the UI inputs
             player1UserName = stOfPlayer.nextToken();
             player2UserName = stOfPlayer.nextToken();
         }
         catch (Exception e){
+			//terminate the method and throw a the InvalidArgumentNumberException
             throw new InvalidArgumentNumberException();
         }
 

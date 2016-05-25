@@ -16,10 +16,11 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 class PlayerManager{
+	//the constant to store the file name
     public static final String DATA_FILE = "players.dat";
 
+	//the String value of the player descent classes
     public static final String AIPLAYER_TYPE = "AIPlayer";
-    public static final String ADVANCED_AIPLAYER_TYPE = "AdvancedAIPlayer";
     public static final String HUMAN_PLAYER_TYPE = "HumanPlayer";
 
 	//the constants represent the game result 
@@ -325,16 +326,21 @@ class PlayerManager{
         }
     }
 
+	//this method restore all the information and statistics of players to a file
     public void recordPlayerStats(){
         PrintWriter outputStream = null;
+		
         try{
+			//try to open the file
             outputStream = new PrintWriter(new FileOutputStream(DATA_FILE));
         }
         catch (FileNotFoundException e){
+			//if file cannot open, system terminates
             System.out.println(FILE_ERROR);
             System.exit(0);
         }
 
+		//write the info and stats of every player to the local file
         for(int i = 0 ; i < playerTotalNum ; i++){
             outputStream.println(playerArray[i].getPlayerInfoStats());
         }
@@ -342,49 +348,64 @@ class PlayerManager{
         outputStream.close();
     }
 
+	//when system restart, import all the play info and stats into playManager
     private void resumePlayerStats(){
         Scanner inputStream = null;
 
         try{
+			//try to open the file to write into
             inputStream = new Scanner(new FileInputStream(DATA_FILE));
         }
         catch (FileNotFoundException e){
+			//if file cannnot open, give up resuming
             return ;
         }
 
+		//import from file line by line
         while(inputStream.hasNextLine()){
+			//parse the content of every line and add it to playerManager
             addPlayerFromRecord(inputStream.nextLine());
         }
 
         inputStream.close();
     }
 
+	//add player to playerManager from the every single line
     private void addPlayerFromRecord(String record){
         StringTokenizer stOfRecord = new StringTokenizer(record);
 
+		//get and split information from the String
         String userName = stOfRecord.nextToken();
         String familyName = stOfRecord.nextToken();
         String givenName = stOfRecord.nextToken();
         int numberOfGamePlayed = Integer.parseInt(stOfRecord.nextToken());
         int numberOfGameWon = Integer.parseInt(stOfRecord.nextToken());
         int numberOfGameDrawn = Integer.parseInt(stOfRecord.nextToken());
+		
+		//discard the "class" text
         stOfRecord.nextToken();
+		
+		//get the class type of the player
         String playerType = stOfRecord.nextToken();
 
         Player player = null;
+		
         if(playerType.equals(AIPLAYER_TYPE)){
-            player = new AIPlayer(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
-        }
-        else if(playerType.equals(ADVANCED_AIPLAYER_TYPE)){
-            player = new AdvancedAIPlayer();
+			//if the player is an aiplayer, load the information into an aiplayer class
+            player = new AIPlayer(userName, familyName, givenName, 
+			                numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
         }
         else if(playerType.equals(HUMAN_PLAYER_TYPE)){
-            player = new HumanPlayer(userName, familyName, givenName, numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
+			//if the player is a human player, load the information into a humanplayer class
+            player = new HumanPlayer(userName, familyName, givenName, 
+			                numberOfGamePlayed, numberOfGameWon, numberOfGameDrawn);
         }
         else{
+			//something wrong, system exit
             System.exit(-1);
         }
 
+		//add this player to the player list
         addPlayer(player);
     }
 
