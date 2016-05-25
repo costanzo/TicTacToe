@@ -131,12 +131,16 @@ class GameManager{
 		do {
 			System.out.println(player.getGivenName() + "'s move:");
 
+			//get the move from the player's method, it depends on 
+			//which kind of player it is
 			Move move = player.makeMove(transferGrid());
 
+			//if the move does not exist, system exit
 			if(move == null){
 				System.exit(0);
 			}
 
+			//get row and column from the move
 			rowOfMark = move.getRow();
 			columnOfMark = move.getColumn();
 
@@ -275,19 +279,22 @@ class GameManager{
 		return true;
 	}
 
+	//to make the advanceaiplayer compatible, manually transfer the int[][] into char[][]
 	private char[][] transferGrid(){
-		char[][] cGrid = new char[3][3];
+		//create a new two-dimension char grid
+		char[][] cGrid = new char[ROW_UPPERBOUND][COLUMN_UPPERBOUND];
 
+		//initialize the char[][] gameboard according to the int[][] gameboard
 		for(int i = ROW_LOWERBOUND ; i< ROW_UPPERBOUND ; i++)
 			for(int j = COLUMN_LOWERBOUND; j < COLUMN_UPPERBOUND ; j++){
 				switch (grid[i][j]){
-					case EMPTY_MARK:
+					case EMPTY_MARK:    //set the empty cell
 						cGrid[i][j] = MARK_OF_EMPTY;
 						break;
-					case PLAYER_O_MARK:
+					case PLAYER_O_MARK:  //set the player O mark
 						cGrid[i][j] = MARK_OF_O;
 						break;
-					case PLAYER_X_MARK:
+					case PLAYER_X_MARK:  //set the player X mark
 						cGrid[i][j] = MARK_OF_X;
 						break;
 					default:

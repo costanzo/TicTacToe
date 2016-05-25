@@ -124,7 +124,7 @@ abstract class Player implements Comparable<Player>{
 	@Override
 	//override the abstract method in the interface for comparison
 	public int compareTo(Player player){
-		//get the winning ration and drawn ratio for comparison
+		//get the winning ratio and drawn ratio for comparison
 		float win = getWinningRatio();
 		float drawn = getDrawnRatio();
 
@@ -178,7 +178,7 @@ abstract class Player implements Comparable<Player>{
 				+ numberOfGameDrawn + " "
 				+ getClass();
 	}
-
+    //this abstract method needs to be implemented by all descent classes
 	public abstract Move makeMove(char[][] gameBoard);
 
 	//get the winning ratio of the player, if no game played, return zero
